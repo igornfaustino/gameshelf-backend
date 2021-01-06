@@ -1,9 +1,15 @@
-import { IResolvers } from "graphql-tools";
+import { IResolvers } from 'graphql-tools';
 
 const resolvers: IResolvers = {
-  Query: {
-    helloWorld: () => "Hello world from Apollo Server",
-  },
+	Query: {
+		game: () => ({
+			id: 1,
+			name: 'mario bros',
+			coverURL: 'http://cover.url.com',
+			genres: [],
+			platforms: [],
+		}),
+	},
 };
 
 export default resolvers;

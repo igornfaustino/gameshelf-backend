@@ -1,0 +1,18 @@
+type Genre {
+	id: ID
+	name: String!
+}
+
+type Platform {
+	id: ID
+	name: String!
+	abbreviation: String
+}
+
+type Game {
+	id: ID
+	name: String
+	coverURL: String
+	genres: [Genre]
+	platforms: [Platform]
+}
