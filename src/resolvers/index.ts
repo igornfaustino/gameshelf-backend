@@ -1,14 +1,9 @@
 import { IResolvers } from 'graphql-tools';
+import { GameModel } from '../models/game';
 
 const resolvers: IResolvers = {
 	Query: {
-		game: () => ({
-			id: 1,
-			name: 'mario bros',
-			coverURL: 'http://cover.url.com',
-			genres: [],
-			platforms: [],
-		}),
+		game: (obj, args) => GameModel.searchGame(args),
 	},
 };
 

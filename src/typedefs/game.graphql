@@ -12,7 +12,7 @@ type Platform {
 type Game {
 	id: ID
 	name: String
-	coverURL: String
+	cover: String
 	genres: [Genre]
 	platforms: [Platform]
 }

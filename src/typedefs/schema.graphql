@@ -1,3 +1,9 @@
 type Query {
-	game: Game
+	game(
+		search: String!
+		platforms: [Int]
+		genres: [Int]
+		limit: Int
+		offset: Int
+	): [Game]
 }
