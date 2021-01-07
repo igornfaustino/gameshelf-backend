@@ -1,4 +1,4 @@
-import { searchGames } from '../connectors/igdb';
+import { countGames, searchGames } from '../connectors/igdb';
 import { Game } from '../types/game';
 
 type SearchArgs = {
@@ -22,5 +22,9 @@ export const GameModel = {
 			...game,
 			cover: cover?.url?.slice(2).replace('t_thumb', 't_cover_big'),
 		}));
+	},
+	async countGames(args: SearchArgs): Promise<Number> {
+		const data = await countGames(args.search, args.genres, args.platforms);
+		return data.count;
 	},
 };

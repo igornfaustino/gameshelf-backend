@@ -6,4 +6,6 @@ type Query {
 		limit: Int
 		offset: Int
 	): [Game]
+
+	countGames(search: String!, platforms: [Int], genres: [Int]): Int
 }
