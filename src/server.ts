@@ -8,6 +8,7 @@ const app = express();
 const server = new ApolloServer({
 	schema,
 	playground: true,
+	cacheControl: true,
 });
 
 app.use('*', cors());
