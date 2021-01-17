@@ -1,5 +1,10 @@
-import { countGames, getPlatforms, searchGames } from '../connectors/igdb';
-import { Game, Platform } from '../types/game';
+import {
+	countGames,
+	getGenres,
+	getPlatforms,
+	searchGames,
+} from '../connectors/igdb';
+import { Game, Genre, Platform } from '../types/game';
 
 type SearchArgs = {
 	search: string;
@@ -31,7 +36,11 @@ export const GameModel = {
 
 	async getPlatforms(): Promise<Platform[]> {
 		const platforms = await getPlatforms();
-		console.log('request')
 		return platforms;
+	},
+
+	async getGenres(): Promise<Genre[]> {
+		const genres = await getGenres();
+		return genres;
 	},
 };

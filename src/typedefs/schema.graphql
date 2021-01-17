@@ -18,5 +18,7 @@ type Query {
 
 	countGames(search: String!, platforms: [Int], genres: [Int]): Int
 
-	platforms: [Platform]
+	platforms: [Platform] @cacheControl(maxAge: 43200)
+
+	genres: [Genre] @cacheControl(maxAge: 43200)
 }

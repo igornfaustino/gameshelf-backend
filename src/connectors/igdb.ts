@@ -1,6 +1,6 @@
 import apicalypse, { ApicalypseConfig } from 'apicalypse';
 import Bottleneck from 'bottleneck';
-import { APIGame, Platform } from '../types/game';
+import { APIGame, Genre, Platform } from '../types/game';
 
 const configs = require('../../config.json');
 
@@ -85,5 +85,16 @@ export const getPlatforms = (): Promise<Platform[]> => {
 
 	return limiter
 		.schedule(() => query.request('/platforms'))
+		.then((res) => res.data);
+};
+
+export const getGenres = (): Promise<Genre[]> => {
+	const query = apicalypse(requestOptions)
+		.fields('name')
+		.sort('name', 'asc')
+		.limit(500);
+
+	return limiter
+		.schedule(() => query.request('/genres'))
 		.then((res) => res.data);
 };

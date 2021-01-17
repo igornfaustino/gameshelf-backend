@@ -4,14 +4,16 @@ export type Platform = {
 	abbreviation: string;
 };
 
+export type Genre = {
+	id: any;
+	name: string;
+};
+
 export type Game = {
 	id: any;
 	name: string;
 	cover?: string;
-	genres: {
-		id: any;
-		name: string;
-	};
+	genres: Genre[];
 	platforms: Platform[];
 };
 
@@ -21,9 +23,6 @@ export type APIGame = {
 	cover?: {
 		url: string;
 	};
-	genres: {
-		id: any;
-		name: string;
-	};
+	genres: Genre[];
 	platforms: Platform[];
 };

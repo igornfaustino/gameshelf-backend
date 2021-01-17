@@ -6,6 +6,7 @@ const resolvers: IResolvers = {
 		game: (obj, args) => GameModel.searchGame(args),
 		countGames: (obj, args) => GameModel.countGames(args),
 		platforms: () => GameModel.getPlatforms(),
+		genres: () => GameModel.getGenres(),
 	},
 };
 
