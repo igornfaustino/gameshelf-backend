@@ -1,12 +1,16 @@
 import { IResolvers } from 'graphql-tools';
-import { GameModel } from '../models/game';
+import { IgdbModel } from '../models/igdb';
+import { UserModel } from '../models/user';
 
 const resolvers: IResolvers = {
 	Query: {
-		game: (obj, args) => GameModel.searchGame(args),
-		countGames: (obj, args) => GameModel.countGames(args),
-		platforms: () => GameModel.getPlatforms(),
-		genres: () => GameModel.getGenres(),
+		game: (obj, args) => IgdbModel.searchGame(args),
+		countGames: (obj, args) => IgdbModel.countGames(args),
+		platforms: () => IgdbModel.getPlatforms(),
+		genres: () => IgdbModel.getGenres(),
+	},
+	Mutation: {
+		createUser: (obj, args) => UserModel.createUser(args),
 	},
 };
 

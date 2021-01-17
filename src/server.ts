@@ -1,20 +1,29 @@
+import 'reflect-metadata';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
+import { createConnection } from 'typeorm';
 import cors from 'cors';
+
 import schema from './typedefs';
 
-const app = express();
+const initServer = async () => {
+	const connection = await createConnection();
 
-const server = new ApolloServer({
-	schema,
-	playground: true,
-	cacheControl: true,
-});
+	const app = express();
 
-app.use('*', cors());
+	const server = new ApolloServer({
+		schema,
+		playground: true,
+		cacheControl: true,
+	});
 
-server.applyMiddleware({ app, path: '/graphql' });
+	app.use('*', cors());
 
-app.listen({ port: 8000 }, () => {
-	console.log('Apollo Server on http://localhost:8000/graphql');
-});
+	server.applyMiddleware({ app, path: '/graphql' });
+
+	app.listen({ port: 8000 }, () => {
+		console.log('Apollo Server on http://localhost:8000/graphql');
+	});
+};
+
+initServer();

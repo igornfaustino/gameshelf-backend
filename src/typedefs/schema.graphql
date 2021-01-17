@@ -22,3 +22,7 @@ type Query {
 
 	genres: [Genre] @cacheControl(maxAge: 43200)
 }
+
+type Mutation {
+	createUser(name: String!, email: String, password: String): Boolean
+}

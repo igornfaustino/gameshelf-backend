@@ -1,0 +1,9 @@
+{
+	"type": "sqlite",
+	"database": "dev.sqlite3",
+	"entities": ["src/entity/**/*.ts"],
+	"migrations": ["src/migration/**/*.ts"],
+	"cli": {
+		"migrationsDir": "src/migration/"
+	}
+}

@@ -14,7 +14,7 @@ type SearchArgs = {
 	offset?: number;
 };
 
-export const GameModel = {
+export const IgdbModel = {
 	async searchGame(args: SearchArgs): Promise<Game[]> {
 		const games = await searchGames(
 			args.search,
