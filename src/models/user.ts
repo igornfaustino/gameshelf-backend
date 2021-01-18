@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { getConnection } from 'typeorm';
 import { User } from '../entity/User';
 
@@ -7,13 +8,17 @@ type UserType = {
 	password: string;
 };
 
+const saltRounds = 10;
+
 export const UserModel = {
-	createUser(newUser: UserType) {
+	async createUser(newUser: UserType) {
+		const { name, email, password } = newUser;
+		const hash = await bcrypt.hash(password, saltRounds);
 		return getConnection()
 			.createQueryBuilder()
 			.insert()
 			.into(User)
-			.values([newUser])
+			.values([{ name, email, password: hash }])
 			.execute()
 			.then(() => true)
 			.catch((reason) => {
