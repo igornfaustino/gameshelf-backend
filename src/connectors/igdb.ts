@@ -1,5 +1,7 @@
 import apicalypse, { ApicalypseConfig } from 'apicalypse';
 import Bottleneck from 'bottleneck';
+import { getConnection } from 'typeorm';
+import { App } from '../entity/App';
 import { APIGame, Genre, Platform } from '../types/game';
 
 const configs = require('../../config.json');
@@ -7,21 +9,29 @@ const configs = require('../../config.json');
 const BASE_URL = 'https://api.igdb.com/v4';
 
 const clientId = configs.clientId;
-const authorization = configs.authorization;
 
 const limiter = new Bottleneck({
 	minTime: 250,
 	maxConcurrent: 8,
 });
 
-const requestOptions: ApicalypseConfig = {
-	baseURL: `${BASE_URL}`,
-	method: 'POST',
-	headers: {
-		Accept: 'application/json',
-		'Client-ID': clientId,
-		Authorization: authorization,
-	},
+export const requestOptions = async (): Promise<ApicalypseConfig> => {
+	const result = await getConnection()
+		.createQueryBuilder()
+		.select('app.value')
+		.from(App, 'app')
+		.where('app.propName = :prop', { prop: 'igdb_auth_token' })
+		.getOne();
+	const auth = result?.value;
+	return {
+		baseURL: `${BASE_URL}`,
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Client-ID': clientId,
+			Authorization: `Bearer ${auth}`,
+		},
+	};
 };
 
 const makeCondition = (platforms?: any[], genres?: any[]) => {
@@ -35,14 +45,14 @@ const makeCondition = (platforms?: any[], genres?: any[]) => {
 	return whereStatement.join('&');
 };
 
-export const searchGames = (
+export const searchGames = async (
 	search: string,
 	genres?: number[],
 	platforms?: number[],
 	limit: number = 50,
 	offset: number = 0,
 ): Promise<APIGame[]> => {
-	const query = apicalypse(requestOptions)
+	const query = apicalypse(await requestOptions())
 		.fields('name,cover.url,genres.name,platforms.name,platforms.abbreviation')
 		.search(search)
 		.limit(limit)
@@ -61,12 +71,14 @@ type Count = {
 	count: number;
 };
 
-export const countGames = (
+export const countGames = async (
 	search: string,
 	genres?: number[],
 	platforms?: number[],
 ): Promise<Count> => {
-	const query = apicalypse(requestOptions).fields('id').search(search);
+	const query = apicalypse(await requestOptions())
+		.fields('id')
+		.search(search);
 
 	const whereStatement = makeCondition(platforms, genres);
 
@@ -77,8 +89,8 @@ export const countGames = (
 		.then((res) => res.data);
 };
 
-export const getPlatforms = (): Promise<Platform[]> => {
-	const query = apicalypse(requestOptions)
+export const getPlatforms = async (): Promise<Platform[]> => {
+	const query = apicalypse(await requestOptions())
 		.fields('name,abbreviation')
 		.sort('name', 'asc')
 		.limit(500);
@@ -88,8 +100,8 @@ export const getPlatforms = (): Promise<Platform[]> => {
 		.then((res) => res.data);
 };
 
-export const getGenres = (): Promise<Genre[]> => {
-	const query = apicalypse(requestOptions)
+export const getGenres = async (): Promise<Genre[]> => {
+	const query = apicalypse(await requestOptions())
 		.fields('name')
 		.sort('name', 'asc')
 		.limit(500);

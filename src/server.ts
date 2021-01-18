@@ -5,9 +5,12 @@ import { createConnection } from 'typeorm';
 import cors from 'cors';
 
 import schema from './typedefs';
+import { requestOptions } from './connectors/igdb';
 
 const initServer = async () => {
 	const connection = await createConnection();
+
+	requestOptions();
 
 	const app = express();
 
