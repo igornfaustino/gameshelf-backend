@@ -37,6 +37,7 @@
 		"express": "^4.17.1",
 		"graphql": "^15.4.0",
 		"reflect-metadata": "^0.1.13",
-		"typeorm": "^0.2.30"
+		"typeorm": "^0.2.30",
+		"yup": "^0.32.8"
 	}
 }
