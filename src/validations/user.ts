@@ -8,3 +8,11 @@ export const userSchema = yup.object().shape({
 		.min(6, 'minimum length#{"min": 6}')
 		.required('required'),
 });
+
+export const loginSchema = yup.object().shape({
+	email: yup.string().email('email invalid').required('required'),
+	password: yup
+		.string()
+		.min(6, 'minimum length#{"min": 6}')
+		.required('required'),
+});

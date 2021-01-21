@@ -2,3 +2,7 @@ type User {
 	name: String
 	email: String
 }
+
+type Auth {
+	token: String
+}

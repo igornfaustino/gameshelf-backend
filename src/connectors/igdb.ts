@@ -35,7 +35,7 @@ export const requestOptions = async (): Promise<ApicalypseConfig> => {
 };
 
 const makeCondition = (platforms?: any[], genres?: any[]) => {
-	const whereStatement = [];
+	const whereStatement = ['cover!=null'];
 	if (genres) {
 		whereStatement.push(`genres=(${genres.join(',')})`);
 	}

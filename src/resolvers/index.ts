@@ -11,6 +11,7 @@ const resolvers: IResolvers = {
 	},
 	Mutation: {
 		createUser: (obj, args) => UserModel.createUser(args),
+		login: (obj, args) => UserModel.Login(args),
 	},
 };
 
