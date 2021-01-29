@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { getConnection } from 'typeorm';
+import { getConnection, getRepository } from 'typeorm';
 import { User } from '../entity/User';
 import { generateJWT } from '../helpers/jwt';
 import { userSchema, loginSchema } from '../validations/user';
@@ -17,81 +17,59 @@ type LoginType = {
 
 const saltRounds = 10;
 
+const authorize = (token: string) => ({ token });
+const unauthorize = (reason: string) => ({ reason });
+
 const saveUser = (user: UserType) =>
-	getConnection()
-		.createQueryBuilder()
-		.insert()
-		.into(User)
-		.values([user])
-		.execute()
+	getRepository(User)
+		.save(user)
 		.then((value) => {
-			const id = value.identifiers[0].id;
 			const authToken = generateJWT({
-				id,
-				email: user.email,
-				name: user.name,
+				id: value.id,
+				email: value.email,
+				name: value.name,
 			});
 
-			return {
-				token: authToken,
-			};
+			return authorize(authToken);
 		})
-		.catch((reason) => {
-			// TODO: define error
-			// DB error
-			console.log(reason);
-			return false;
+		.catch((error) => {
+			console.log(error);
+			switch (error.code) {
+				case 'ER_DUP_ENTRY':
+					return unauthorize('duplicate_user');
+				default:
+					return unauthorize('something_went_wrong');
+			}
 		});
 
 const getUserByEmail = (email: string) =>
-	getConnection()
-		.createQueryBuilder()
-		.select('user')
-		.from(User, 'user')
-		.where('user.email = :prop', { prop: email })
-		.getOne();
+	getRepository(User).findOne({
+		where: { email },
+	});
 
 export const UserModel = {
 	async createUser(newUser: UserType) {
-		try {
-			const values = await userSchema.validate(newUser);
-			const { name, email, password } = values;
-			const hash = await bcrypt.hash(password, saltRounds);
-			return saveUser({ name, email, password: hash });
-		} catch (error) {
-			// Validation error
-			console.log(error); // TODO: define error type
-			return false;
-		}
+		const values = await userSchema.validate(newUser);
+		const { name, email, password } = values;
+		const hash = await bcrypt.hash(password, saltRounds);
+		return saveUser({ name, email, password: hash });
 	},
 
 	async Login(userCredentials: LoginType) {
-		try {
-			const values = await loginSchema.validate(userCredentials);
-			const { email, password } = values;
-			const user = await getUserByEmail(email);
-			if (!user) {
-				// user don't exist
-				return false;
-			}
-			const isPasswordCorrect = await bcrypt.compare(password, user.password);
-			if (!isPasswordCorrect) {
-				// wrong password
-				return false;
-			}
-			const authToken = generateJWT({
-				id: user.id,
-				email: user.email,
-				name: user.name,
-			});
+		const values = await loginSchema.validate(userCredentials);
+		const { email, password } = values;
+		const user = await getUserByEmail(email);
+		if (!user) return unauthorize('invalid_credentials');
 
-			return {
-				token: authToken,
-			};
-		} catch (error) {
-			// Validation error
-			console.log(error); // TODO: define error type
-			return false;
-		}
+		const isPasswordCorrect = await bcrypt.compare(password, user.password);
+		if (!isPasswordCorrect) return unauthorize('invalid_credentials');
+
+		const authToken = generateJWT({
+			id: user.id,
+			email: user.email,
+			name: user.name,
+		});
+
+		return authorize(authToken);
 	},
 };

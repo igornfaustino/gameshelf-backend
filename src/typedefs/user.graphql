@@ -3,6 +3,12 @@ type User {
 	email: String
 }
 
-type Auth {
+type Authorized {
 	token: String
 }
+
+type Unauthorized {
+	reason: String
+}
+
+union UserResult = Authorized | Unauthorized
