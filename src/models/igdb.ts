@@ -26,6 +26,7 @@ export const IgdbModel = {
 		return games.map(({ cover, ...game }) => ({
 			...game,
 			cover: cover?.url?.replace('t_thumb', 't_cover_big'),
+			thumbnail: cover?.url?.replace('t_thumb', 't_cover_small'),
 		}));
 	},
 

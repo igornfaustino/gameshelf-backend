@@ -13,6 +13,7 @@ type Game {
 	id: ID
 	name: String
 	cover: String
+	thumbnail: String
 	genres: [Genre]
 	platforms: [Platform]
 }
