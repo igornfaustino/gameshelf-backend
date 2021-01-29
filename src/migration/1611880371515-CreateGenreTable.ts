@@ -1,18 +1,19 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreteAppTable1610965707865 implements MigrationInterface {
+export class CreateGenreTable1611880371515 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		queryRunner.createTable(
 			new Table({
-				name: 'app',
+				name: 'genres',
 				columns: [
 					{
-						name: 'propName',
-						type: 'varchar',
+						name: 'id',
+						type: 'int',
 						isPrimary: true,
+						isGenerated: false,
 					},
 					{
-						name: 'value',
+						name: 'name',
 						type: 'varchar',
 					},
 				],
@@ -21,6 +22,6 @@ export class CreteAppTable1610965707865 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('app');
+		await queryRunner.dropTable('genres');
 	}
 }
