@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateGenreTable1611880371515 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
-		queryRunner.createTable(
+		await queryRunner.createTable(
 			new Table({
 				name: 'genres',
 				columns: [

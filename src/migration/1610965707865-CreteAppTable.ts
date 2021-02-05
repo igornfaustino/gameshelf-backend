@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreteAppTable1610965707865 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
-		queryRunner.createTable(
+		await queryRunner.createTable(
 			new Table({
 				name: 'app',
 				columns: [
