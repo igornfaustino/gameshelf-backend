@@ -1,10 +1,11 @@
 import {
 	countGames,
+	getGameByID,
 	getGenres,
 	getPlatforms,
 	searchGames,
 } from '../connectors/igdb';
-import { Game, Genre, Platform } from '../types/game';
+import { APIGame, Game, Genre, Platform } from '../types/game';
 
 type SearchArgs = {
 	search: string;
@@ -13,6 +14,12 @@ type SearchArgs = {
 	limit?: number;
 	offset?: number;
 };
+
+const APIGameToGameModel = (game: APIGame): Game => ({
+	...game,
+	cover: game.cover?.url?.replace('t_thumb', 't_cover_big'),
+	thumbnail: game.cover?.url?.replace('t_thumb', 't_cover_small'),
+});
 
 export const IgdbModel = {
 	async searchGame(args: SearchArgs): Promise<Game[]> {
@@ -23,11 +30,7 @@ export const IgdbModel = {
 			args.limit,
 			args.offset,
 		);
-		return games.map(({ cover, ...game }) => ({
-			...game,
-			cover: cover?.url?.replace('t_thumb', 't_cover_big'),
-			thumbnail: cover?.url?.replace('t_thumb', 't_cover_small'),
-		}));
+		return games.map((game) => APIGameToGameModel(game));
 	},
 
 	async countGames(args: SearchArgs): Promise<Number> {
@@ -43,5 +46,10 @@ export const IgdbModel = {
 	async getGenres(): Promise<Genre[]> {
 		const genres = await getGenres();
 		return genres;
+	},
+
+	async getGameByID(id: number): Promise<Game> {
+		const game = await getGameByID(id);
+		return APIGameToGameModel(game);
 	},
 };
