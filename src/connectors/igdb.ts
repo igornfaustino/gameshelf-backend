@@ -110,3 +110,12 @@ export const getGenres = async (): Promise<Genre[]> => {
 		.schedule(() => query.request('/genres'))
 		.then((res) => res.data);
 };
+
+export const getGameByID = async (id: number): Promise<APIGame> => {
+	const query = apicalypse(await requestOptions())
+		.fields('name,cover.url,genres.name,platforms.name,platforms.abbreviation')
+		.where(`id=${id}`);
+	return limiter
+		.schedule(() => query.request('/games'))
+		.then((res) => res.data[0]);
+};
