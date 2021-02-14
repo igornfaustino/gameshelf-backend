@@ -16,8 +16,8 @@ const resolvers: IResolvers = {
 	Query: {
 		game: (obj, args) => IgdbModel.searchGame(args),
 		countGames: (obj, args) => IgdbModel.countGames(args),
-		platforms: () => IgdbModel.getPlatforms(),
-		genres: () => IgdbModel.getGenres(),
+		platforms: () => GameModel.getPlatforms(),
+		genres: () => GameModel.getGenres(),
 	},
 	Mutation: {
 		createUser: (obj, args) => UserModel.createUser(args),

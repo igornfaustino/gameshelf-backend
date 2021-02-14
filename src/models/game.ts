@@ -3,6 +3,8 @@ import { Game } from '../entity/Game';
 import { IgdbModel } from './igdb';
 import { Game as GameType } from '../types/game';
 import { StatusToGame } from '../entity/StatusToGame';
+import { Genre } from '../entity/Genre';
+import { Platform } from '../entity/Platform';
 
 export const GameModel = {
 	createOrUpdateGame: async (game: GameType) => {
@@ -44,5 +46,13 @@ export const GameModel = {
 		// result.map((r) => console.log(r));
 		console.log(result);
 		return true;
+	},
+
+	getGenres: async () => {
+		return await getRepository(Genre).find();
+	},
+
+	getPlatforms: async () => {
+		return await getRepository(Platform).find();
 	},
 };

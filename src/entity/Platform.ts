@@ -3,7 +3,7 @@ import { Entity, PrimaryColumn, Column } from 'typeorm';
 @Entity('platforms')
 export class Platform {
 	@PrimaryColumn()
-	propName!: number;
+	id!: number;
 
 	@Column({ nullable: false })
 	name!: string;
