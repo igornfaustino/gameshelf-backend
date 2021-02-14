@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { StatusToGame } from './StatusToGame';
 
 @Entity('users')
 export class User {
@@ -13,4 +14,10 @@ export class User {
 
 	@Column({ nullable: false })
 	password!: string;
+
+	@OneToMany(
+		() => StatusToGame,
+		(statusToGame: StatusToGame) => statusToGame.games,
+	)
+	games?: StatusToGame;
 }
