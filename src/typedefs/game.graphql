@@ -16,4 +16,5 @@ type Game {
 	thumbnail: String
 	genres: [Genre]
 	platforms: [Platform]
+	status: String
 }

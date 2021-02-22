@@ -8,7 +8,14 @@ import { Platform } from '../entity/Platform';
 
 export const GameModel = {
 	createOrUpdateGame: async (game: GameType) => {
-		getRepository(Game).save(game);
+		getRepository(Game).save({
+			id: game.id,
+			name: game.name,
+			cover: game.cover,
+			thumbnail: game.thumbnail,
+			genres: game.genres,
+			platforms: game.platforms,
+		});
 	},
 
 	relateGameToStatus: async (gameId: number, statusId: number) => {
@@ -36,16 +43,7 @@ export const GameModel = {
 		await GameModel.createOrUpdateGame(game);
 		await GameModel.relateGameToStatus(game.id, props.statusId);
 
-		// TODO: return a game from here
-		const result = await getRepository(StatusToGame)
-			.createQueryBuilder('gameStatus')
-			.leftJoinAndSelect('gameStatus.games', 'games')
-			.leftJoinAndSelect('gameStatus.users', 'users')
-			.where('gameId=:gameId', { gameId: game.id })
-			.getOne();
-		// result.map((r) => console.log(r));
-		console.log(result);
-		return true;
+		return game;
 	},
 
 	getGenres: async () => {
@@ -54,5 +52,19 @@ export const GameModel = {
 
 	getPlatforms: async () => {
 		return await getRepository(Platform).find();
+	},
+
+	getGameStatus: async (obj: GameType) => {
+		const result = await getRepository(StatusToGame)
+			.createQueryBuilder('gameStatus')
+			.leftJoinAndSelect('gameStatus.games', 'games')
+			.leftJoinAndSelect('gameStatus.users', 'users')
+			.leftJoinAndSelect('gameStatus.status', 'status')
+			.where('gameId=:gameId', { gameId: obj.id })
+			.andWhere('userId=:userId', {
+				userId: '2f68d3b2-a1d8-4e14-a77b-41ac16488866',
+			})
+			.getOne();
+		return result?.status.name;
 	},
 };

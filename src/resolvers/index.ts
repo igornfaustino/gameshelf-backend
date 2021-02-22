@@ -13,16 +13,19 @@ const resolvers: IResolvers = {
 			return 'Unauthorized';
 		},
 	},
+	Game: {
+		status: (obj) => GameModel.getGameStatus(obj),
+	},
 	Query: {
-		game: (obj, args) => IgdbModel.searchGame(args),
-		countGames: (obj, args) => IgdbModel.countGames(args),
+		game: (_obj, args) => IgdbModel.searchGame(args),
+		countGames: (_obj, args) => IgdbModel.countGames(args),
 		platforms: () => GameModel.getPlatforms(),
 		genres: () => GameModel.getGenres(),
 	},
 	Mutation: {
-		createUser: (obj, args) => UserModel.createUser(args),
-		login: (obj, args) => UserModel.Login(args),
-		addStatusToGame: (obj, args) => GameModel.addStatusToGame(args),
+		createUser: (_obj, args) => UserModel.createUser(args),
+		login: (_obj, args) => UserModel.Login(args),
+		addStatusToGame: (_obj, args) => GameModel.addStatusToGame(args),
 	},
 };
 

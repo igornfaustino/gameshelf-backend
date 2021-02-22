@@ -1,4 +1,13 @@
-import { Entity, PrimaryColumn, Column, OneToMany } from 'typeorm';
+import {
+	Entity,
+	PrimaryColumn,
+	Column,
+	OneToMany,
+	ManyToMany,
+	JoinTable,
+} from 'typeorm';
+import { Genre } from './Genre';
+import { Platform } from './Platform';
 import { StatusToGame } from './StatusToGame';
 @Entity('games')
 export class Game {
@@ -19,4 +28,12 @@ export class Game {
 		(statusToGame: StatusToGame) => statusToGame.games,
 	)
 	gameStatus?: StatusToGame;
+
+	@ManyToMany(() => Platform)
+	@JoinTable()
+	platforms!: Platform[];
+
+	@ManyToMany(() => Genre)
+	@JoinTable()
+	genres!: Genre[];
 }

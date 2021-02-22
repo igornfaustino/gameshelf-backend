@@ -32,7 +32,7 @@ export class StatusToGame {
 	@JoinColumn({ name: 'userId' })
 	users!: User;
 
-	@ManyToOne(() => Status, (status: Status) => status.games)
+	@ManyToOne(() => Status, (status: Status) => status.gameStatus)
 	@JoinColumn({ name: 'statusId' })
-	status!: User;
+	status!: Status;
 }
