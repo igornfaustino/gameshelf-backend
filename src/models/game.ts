@@ -38,10 +38,30 @@ export const GameModel = {
 		});
 	},
 
+	deleteStatusGame: async (gameId: number) => {
+		const gameStatusRepository = getRepository(StatusToGame);
+		const gameStatus = await gameStatusRepository.findOne(undefined, {
+			where: {
+				gameId,
+				userId: '2f68d3b2-a1d8-4e14-a77b-41ac16488866',
+			},
+		});
+		if (!gameStatus) return;
+		return gameStatusRepository.delete(gameStatus);
+	},
+
 	addStatusToGame: async (props: any) => {
 		const game = await IgdbModel.getGameByID(props.gameId);
 		await GameModel.createOrUpdateGame(game);
 		await GameModel.relateGameToStatus(game.id, props.statusId);
+
+		return game;
+	},
+
+	removeStatusToGame: async (props: any) => {
+		const game = await IgdbModel.getGameByID(props.gameId);
+		await GameModel.createOrUpdateGame(game);
+		await GameModel.deleteStatusGame(game.id);
 
 		return game;
 	},

@@ -26,6 +26,7 @@ const resolvers: IResolvers = {
 		createUser: (_obj, args) => UserModel.createUser(args),
 		login: (_obj, args) => UserModel.Login(args),
 		addStatusToGame: (_obj, args) => GameModel.addStatusToGame(args),
+		removeStatusToGame: (_obj, args) => GameModel.removeStatusToGame(args),
 	},
 };
 
