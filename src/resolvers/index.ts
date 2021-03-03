@@ -14,7 +14,7 @@ const resolvers: IResolvers = {
 		},
 	},
 	Game: {
-		status: (obj) => GameModel.getGameStatus(obj),
+		status: (obj, _args, context) => GameModel.getGameStatus(obj, context),
 	},
 	Query: {
 		game: (_obj, args) => IgdbModel.searchGame(args),

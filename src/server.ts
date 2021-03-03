@@ -5,17 +5,20 @@ import { createConnection } from 'typeorm';
 import cors from 'cors';
 
 import schema from './typedefs';
-import { requestOptions } from './connectors/igdb';
+import { parserJWT } from './helpers/jwt';
 
 const initServer = async () => {
 	const connection = await createConnection();
-
-	requestOptions();
 
 	const app = express();
 
 	const server = new ApolloServer({
 		schema,
+		context: ({ req }) => {
+			const token = req.headers.authorization || '';
+			const user = parserJWT(token);
+			return { user };
+		},
 		playground: true,
 		cacheControl: true,
 	});
