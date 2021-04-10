@@ -2,6 +2,7 @@ import apicalypse, { ApicalypseConfig } from 'apicalypse';
 import Bottleneck from 'bottleneck';
 import { getConnection } from 'typeorm';
 import { App } from '../entity/App';
+import { igdbTokenMiddleware } from '../helpers/request';
 import { APIGame, Genre, Platform } from '../types/game';
 
 const configs = require('../../config.json');
@@ -62,9 +63,7 @@ export const searchGames = async (
 
 	if (whereStatement) query.where(whereStatement);
 
-	return limiter
-		.schedule(() => query.request('/games'))
-		.then((res) => res.data);
+	return igdbTokenMiddleware(query.request('/games')).then((res) => res.data);
 };
 
 type Count = {
@@ -84,9 +83,9 @@ export const countGames = async (
 
 	if (whereStatement) query.where(whereStatement);
 
-	return limiter
-		.schedule(() => query.request('/games/count'))
-		.then((res) => res.data);
+	return igdbTokenMiddleware(query.request('/games/count')).then(
+		(res) => res.data,
+	);
 };
 
 export const getPlatforms = async (): Promise<Platform[]> => {
@@ -95,9 +94,9 @@ export const getPlatforms = async (): Promise<Platform[]> => {
 		.sort('name', 'asc')
 		.limit(500);
 
-	return limiter
-		.schedule(() => query.request('/platforms'))
-		.then((res) => res.data);
+	return igdbTokenMiddleware(query.request('/platforms')).then(
+		(res) => res.data,
+	);
 };
 
 export const getGenres = async (): Promise<Genre[]> => {
@@ -106,16 +105,14 @@ export const getGenres = async (): Promise<Genre[]> => {
 		.sort('name', 'asc')
 		.limit(500);
 
-	return limiter
-		.schedule(() => query.request('/genres'))
-		.then((res) => res.data);
+	return igdbTokenMiddleware(query.request('/genres')).then((res) => res.data);
 };
 
 export const getGameByID = async (id: number): Promise<APIGame> => {
 	const query = apicalypse(await requestOptions())
 		.fields('name,cover.url,genres.name,platforms.name,platforms.abbreviation')
 		.where(`id=${id}`);
-	return limiter
-		.schedule(() => query.request('/games'))
-		.then((res) => res.data[0]);
+	return igdbTokenMiddleware(query.request('/games')).then(
+		(res) => res.data[0],
+	);
 };

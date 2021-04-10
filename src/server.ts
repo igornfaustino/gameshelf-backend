@@ -7,6 +7,8 @@ import cors from 'cors';
 import schema from './typedefs';
 import { parserJWT } from './helpers/jwt';
 
+require('dotenv').config('.env');
+
 const initServer = async () => {
 	const connection = await createConnection();
 
