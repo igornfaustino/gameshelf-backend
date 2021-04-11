@@ -19,12 +19,16 @@ export const GameModel = {
 		});
 	},
 
-	_relateGameToStatus: async (gameId: number, statusId: number) => {
+	_relateGameToStatus: async (
+		gameId: number,
+		statusId: number,
+		userId: string,
+	) => {
 		const gameStatusRepository = getRepository(StatusToGame);
 		const gameStatus = await gameStatusRepository.findOne(undefined, {
 			where: {
 				gameId,
-				userId: '2f68d3b2-a1d8-4e14-a77b-41ac16488866',
+				userId,
 			},
 		});
 		if (gameStatus) {
@@ -35,34 +39,38 @@ export const GameModel = {
 		return getRepository(StatusToGame).insert({
 			gameId,
 			statusId,
-			userId: '2f68d3b2-a1d8-4e14-a77b-41ac16488866',
+			userId,
 		});
 	},
 
-	_deleteStatusGame: async (gameId: number) => {
+	_deleteStatusGame: async (gameId: number, userId: string) => {
 		const gameStatusRepository = getRepository(StatusToGame);
 		const gameStatus = await gameStatusRepository.findOne(undefined, {
 			where: {
 				gameId,
-				userId: '2f68d3b2-a1d8-4e14-a77b-41ac16488866',
+				userId,
 			},
 		});
 		if (!gameStatus) return;
 		return gameStatusRepository.delete(gameStatus);
 	},
 
-	addStatusToGame: async (props: any) => {
+	addStatusToGame: async (props: any, context: Context) => {
+		const userId = context.user?.id;
+		if (!context.user?.id) return null; // Return unauthorized
 		const game = await IgdbModel.getGameByID(props.gameId);
 		await GameModel._createOrUpdateGame(game);
-		await GameModel._relateGameToStatus(game.id, props.statusId);
+		await GameModel._relateGameToStatus(game.id, props.statusId, userId);
 
 		return game;
 	},
 
-	removeStatusToGame: async (props: any) => {
+	removeStatusToGame: async (props: any, context: Context) => {
+		const userId = context.user?.id;
+		if (!context.user?.id) return null; // Return unauthorized
 		const game = await IgdbModel.getGameByID(props.gameId);
 		await GameModel._createOrUpdateGame(game);
-		await GameModel._deleteStatusGame(game.id);
+		await GameModel._deleteStatusGame(game.id, userId);
 
 		return game;
 	},

@@ -51,6 +51,7 @@ function getAuthTokenSingleton() {
 const handleRequestError = (error: AxiosError) => {
 	const response = error.response;
 	if (response && response.status === 401 && response.config) {
+		console.log('refresh auth token');
 		return getAuthTokenSingleton()
 			.then(async (res) => {
 				response.config.headers.Authorization = `Bearer ${res.data.access_token}`;

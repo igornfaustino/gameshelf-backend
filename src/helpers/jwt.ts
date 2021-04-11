@@ -16,7 +16,8 @@ export const generateJWT = (body: TokenBody) => {
 
 export const parserJWT = (payload: string) => {
 	try {
-		const decoded = jwt.verify(payload, secret);
+		const [type, token] = payload.split(' ');
+		const decoded = jwt.verify(token, secret);
 		return decoded;
 	} catch {
 		return null;

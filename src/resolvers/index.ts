@@ -25,8 +25,10 @@ const resolvers: IResolvers = {
 	Mutation: {
 		createUser: (_obj, args) => UserModel.createUser(args),
 		login: (_obj, args) => UserModel.Login(args),
-		addStatusToGame: (_obj, args) => GameModel.addStatusToGame(args),
-		removeStatusToGame: (_obj, args) => GameModel.removeStatusToGame(args),
+		addStatusToGame: (_obj, args, context) =>
+			GameModel.addStatusToGame(args, context),
+		removeStatusToGame: (_obj, args, context) =>
+			GameModel.removeStatusToGame(args, context),
 	},
 };
 
