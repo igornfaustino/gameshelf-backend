@@ -13,6 +13,15 @@ const resolvers: IResolvers = {
 			return 'Unauthorized';
 		},
 	},
+	GameResult: {
+		__resolveType(obj: { reason?: string }) {
+			if (obj.reason) {
+				return 'Unauthorized';
+			}
+
+			return 'Game';
+		},
+	},
 	Game: {
 		status: (obj, _args, context) => GameModel.getGameStatus(obj, context),
 	},

@@ -6,6 +6,7 @@ import { StatusToGame } from '../entity/StatusToGame';
 import { Genre } from '../entity/Genre';
 import { Platform } from '../entity/Platform';
 import { Context } from '../types/graphQL';
+import { unauthorize } from './user';
 
 export const GameModel = {
 	_createOrUpdateGame: async (game: GameType) => {
@@ -57,7 +58,7 @@ export const GameModel = {
 
 	addStatusToGame: async (props: any, context: Context) => {
 		const userId = context.user?.id;
-		if (!context.user?.id) return null; // Return unauthorized
+		if (!context.user?.id) return unauthorize('user_not_found');
 		const game = await IgdbModel.getGameByID(props.gameId);
 		await GameModel._createOrUpdateGame(game);
 		await GameModel._relateGameToStatus(game.id, props.statusId, userId);

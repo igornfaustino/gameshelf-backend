@@ -23,9 +23,11 @@ type Query {
 	genres: [Genre] @cacheControl(maxAge: 43200)
 }
 
+union GameResult = Game | Unauthorized
+
 type Mutation {
 	createUser(name: String!, email: String, password: String): UserResult
 	login(email: String, password: String): UserResult
-	addStatusToGame(gameId: ID, statusId: Int): Game
+	addStatusToGame(gameId: ID, statusId: Int): GameResult
 	removeStatusToGame(gameId: ID): Game
 }

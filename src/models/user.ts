@@ -18,7 +18,7 @@ type LoginType = {
 const saltRounds = 10;
 
 const authorize = (token: string) => ({ token });
-const unauthorize = (reason: string) => ({ reason });
+export const unauthorize = (reason: string) => ({ reason });
 
 const saveUser = (user: UserType) =>
 	getRepository(User)
