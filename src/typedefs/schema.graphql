@@ -29,5 +29,5 @@ type Mutation {
 	createUser(name: String!, email: String, password: String): UserResult
 	login(email: String, password: String): UserResult
 	addStatusToGame(gameId: ID, statusId: Int): GameResult
-	removeStatusToGame(gameId: ID): Game
+	removeStatusToGame(gameId: ID): GameResult
 }

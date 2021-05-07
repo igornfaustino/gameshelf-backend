@@ -18,9 +18,7 @@ const initServer = async () => {
 		schema,
 		context: ({ req }) => {
 			const token = req.headers.authorization || '';
-			console.log(token);
 			const user = parserJWT(token);
-			console.log(user);
 			return { user };
 		},
 		playground: true,

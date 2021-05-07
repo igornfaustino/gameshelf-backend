@@ -68,7 +68,7 @@ export const GameModel = {
 
 	removeStatusToGame: async (props: any, context: Context) => {
 		const userId = context.user?.id;
-		if (!context.user?.id) return null; // Return unauthorized
+		if (!context.user?.id) return unauthorize('user_not_found');
 		const game = await IgdbModel.getGameByID(props.gameId);
 		await GameModel._createOrUpdateGame(game);
 		await GameModel._deleteStatusGame(game.id, userId);
