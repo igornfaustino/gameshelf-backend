@@ -98,4 +98,25 @@ export const GameModel = {
 			.getOne();
 		return result?.status.name;
 	},
+
+	getGamesByStatus: async (args: any, context: Context) => {
+		if (!context.user?.id) return unauthorize('user_not_found');
+		const [result, count] = await getRepository(StatusToGame)
+			.createQueryBuilder('gameStatus')
+			.leftJoinAndSelect('gameStatus.games', 'games')
+			.leftJoinAndSelect('gameStatus.users', 'users')
+			.leftJoinAndSelect('gameStatus.status', 'status')
+			.leftJoinAndSelect('games.platforms', 'platforms')
+			.leftJoinAndSelect('games.genres', 'genres')
+			.where('statusId=:statusId', { statusId: args.statusId })
+			.andWhere('userId=:userId', {
+				userId: context.user?.id,
+			})
+			.getManyAndCount();
+
+		return {
+			games: result.map(({ games }) => games),
+			count,
+		};
+	},
 };

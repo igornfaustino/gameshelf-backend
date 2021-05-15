@@ -7,6 +7,14 @@ enum CacheControlScope {
 	PRIVATE
 }
 
+type GamesByStatus {
+	games: [Game]
+	count: Int
+}
+
+union GameResult = Game | Unauthorized
+union GamesByStatusResult = GamesByStatus | Unauthorized
+
 type Query {
 	game(
 		search: String!
@@ -21,9 +29,9 @@ type Query {
 	platforms: [Platform] @cacheControl(maxAge: 43200)
 
 	genres: [Genre] @cacheControl(maxAge: 43200)
-}
 
-union GameResult = Game | Unauthorized
+	gamesByStatus(statusId: Int): GamesByStatusResult
+}
 
 type Mutation {
 	createUser(name: String!, email: String, password: String): UserResult

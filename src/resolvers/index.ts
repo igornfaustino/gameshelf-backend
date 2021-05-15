@@ -22,6 +22,15 @@ const resolvers: IResolvers = {
 			return 'Game';
 		},
 	},
+	GamesByStatusResult: {
+		__resolveType(obj: { reason?: string }) {
+			if (obj.reason) {
+				return 'Unauthorized';
+			}
+
+			return 'GamesByStatus';
+		},
+	},
 	Game: {
 		status: (obj, _args, context) => GameModel.getGameStatus(obj, context),
 	},
@@ -30,6 +39,8 @@ const resolvers: IResolvers = {
 		countGames: (_obj, args) => IgdbModel.countGames(args),
 		platforms: () => GameModel.getPlatforms(),
 		genres: () => GameModel.getGenres(),
+		gamesByStatus: (_obj, args, context) =>
+			GameModel.getGamesByStatus(args, context),
 	},
 	Mutation: {
 		createUser: (_obj, args) => UserModel.createUser(args),
