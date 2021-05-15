@@ -3,12 +3,11 @@ import { getGenres, getPlatforms } from '../connectors/igdb';
 import { Genre } from '../types/game';
 
 export class populateGenreAndPlatformTable1613312106729
-	implements MigrationInterface {
+	implements MigrationInterface
+{
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		const genres = await getGenres();
 		const platforms = await getPlatforms();
-
-		console.log(genres);
 
 		await queryRunner.manager
 			.createQueryBuilder()
@@ -21,7 +20,12 @@ export class populateGenreAndPlatformTable1613312106729
 			.createQueryBuilder()
 			.insert()
 			.into('platforms', ['id', 'name', 'abbreviation'])
-			.values(platforms)
+			.values(
+				platforms.map((platform) => ({
+					...platform,
+					abbreviation: platform.abbreviation || '',
+				})),
+			)
 			.execute();
 	}
 

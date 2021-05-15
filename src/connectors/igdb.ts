@@ -4,17 +4,9 @@ import { getConnection } from 'typeorm';
 import { App } from '../entity/App';
 import { igdbTokenMiddleware } from '../helpers/request';
 import { APIGame, Genre, Platform } from '../types/game';
-
-const configs = require('../../config.json');
+import { CLIENT_ID } from '../helpers/env';
 
 const BASE_URL = 'https://api.igdb.com/v4';
-
-const clientId = configs.clientId;
-
-const limiter = new Bottleneck({
-	minTime: 250,
-	maxConcurrent: 8,
-});
 
 export const requestOptions = async (): Promise<ApicalypseConfig> => {
 	const result = await getConnection()
@@ -29,7 +21,7 @@ export const requestOptions = async (): Promise<ApicalypseConfig> => {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
-			'Client-ID': clientId,
+			'Client-ID': CLIENT_ID,
 			Authorization: `Bearer ${auth}`,
 		},
 	};

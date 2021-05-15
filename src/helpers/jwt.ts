@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
-const configs = require('../../config.json');
-
-const { secret } = configs;
+import { SECRET } from '../helpers/env';
 
 type TokenBody = {
 	email: string;
@@ -10,14 +8,14 @@ type TokenBody = {
 };
 
 export const generateJWT = (body: TokenBody) => {
-	const token = jwt.sign(body, secret);
+	const token = jwt.sign(body, SECRET);
 	return token;
 };
 
 export const parserJWT = (payload: string) => {
 	try {
 		const [type, token] = payload.split(' ');
-		const decoded = jwt.verify(token, secret);
+		const decoded = jwt.verify(token, SECRET);
 		return decoded;
 	} catch {
 		return null;
