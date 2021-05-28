@@ -12,6 +12,11 @@ type GamesByStatus {
 	count: Int
 }
 
+type Home {
+	releases: [Game]
+	popular: [Game]
+}
+
 union GameResult = Game | Unauthorized
 union GamesByStatusResult = GamesByStatus | Unauthorized
 
@@ -31,6 +36,7 @@ type Query {
 	genres: [Genre] @cacheControl(maxAge: 43200)
 
 	gamesByStatus(statusId: Int): GamesByStatusResult
+	home: Home
 }
 
 type Mutation {

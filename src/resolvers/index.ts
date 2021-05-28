@@ -41,6 +41,7 @@ const resolvers: IResolvers = {
 		genres: () => GameModel.getGenres(),
 		gamesByStatus: (_obj, args, context) =>
 			GameModel.getGamesByStatus(args, context),
+		home: () => IgdbModel.getHomeGames(),
 	},
 	Mutation: {
 		createUser: (_obj, args) => UserModel.createUser(args),

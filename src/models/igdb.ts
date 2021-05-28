@@ -2,8 +2,10 @@ import {
 	countGames,
 	getGameByID,
 	getGenres,
+	getLast10ReleasedGames,
 	getPlatforms,
 	searchGames,
+	getTopRatingGames,
 } from '../connectors/igdb';
 import { APIGame, Game, Genre, Platform } from '../types/game';
 
@@ -51,5 +53,14 @@ export const IgdbModel = {
 	async getGameByID(id: number): Promise<Game> {
 		const game = await getGameByID(id);
 		return APIGameToGameModel(game);
+	},
+
+	async getHomeGames() {
+		const releases = await getLast10ReleasedGames();
+		const popular = await getTopRatingGames();
+		return {
+			releases: releases.map((game) => APIGameToGameModel(game)),
+			popular: popular.map((game) => APIGameToGameModel(game)),
+		};
 	},
 };
