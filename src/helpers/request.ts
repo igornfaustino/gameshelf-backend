@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosPromise, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosPromise } from 'axios';
 import Bottleneck from 'bottleneck';
 import qs from 'query-string';
 import { getRepository } from 'typeorm';
@@ -18,38 +18,35 @@ const limiter = new Bottleneck({
 
 let authTokenRequest: AxiosPromise<AccessTokenRequest> | null;
 
-export const requestAccessToken = () => {
-	return axios.post(
-		TWITCH_AUTH_URL,
-		qs.stringify({
-			client_id: CLIENT_ID,
-			client_secret: CLIENT_SECRET,
-			grant_type: 'client_credentials',
-		}),
-		{
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
+export const requestAccessToken = () => axios.post(
+	TWITCH_AUTH_URL,
+	qs.stringify({
+		client_id: CLIENT_ID,
+		client_secret: CLIENT_SECRET,
+		grant_type: 'client_credentials',
+	}),
+	{
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-	);
-};
+	},
+);
 
-const saveAccessToken = async (token: string) =>
-	getRepository(App).save({
-		propName: 'igdb_auth_token',
-		value: token,
-	});
+const saveAccessToken = async (token: string) => getRepository(App).save({
+	propName: 'igdb_auth_token',
+	value: token,
+});
 
 function getAuthTokenSingleton() {
 	if (!authTokenRequest) {
 		authTokenRequest = requestAccessToken();
-		authTokenRequest.finally(() => (authTokenRequest = null));
+		authTokenRequest.finally(() => { authTokenRequest = null; });
 	}
 	return authTokenRequest;
 }
 
 const handleRequestError = (error: AxiosError) => {
-	const response = error.response;
+	const { response } = error;
 	if (response && response.status === 401 && response.config) {
 		console.log('refresh auth token');
 		return getAuthTokenSingleton()
@@ -65,6 +62,6 @@ const handleRequestError = (error: AxiosError) => {
 	throw error;
 };
 
-export const igdbTokenMiddleware = (request: Promise<any>) => {
-	return limiter.schedule(() => request).catch(handleRequestError);
-};
+export const igdbTokenMiddleware = (request: Promise<any>) => limiter
+	.schedule(() => request)
+	.catch(handleRequestError);

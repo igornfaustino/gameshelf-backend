@@ -9,26 +9,24 @@ import { loginSchema, userSchema } from '../validations/user';
 
 const saltRounds = 10;
 
-const saveUser = (user: UserType) =>
-	UserModel.query()
-		.insert(user)
-		.then((newUser) => {
-			const authToken = generateJWT({
-				id: newUser.id,
-				email: newUser.email,
-				name: newUser.name,
-			});
-			return authorize(authToken);
-		})
-		.catch((error) => {
-			if (error instanceof ConstraintViolationError) {
-				return unauthorize('duplicate_user');
-			}
-			return unauthorize('something_went_wrong');
+const saveUser = (user: UserType) => UserModel.query()
+	.insert(user)
+	.then((newUser) => {
+		const authToken = generateJWT({
+			id: newUser.id,
+			email: newUser.email,
+			name: newUser.name,
 		});
+		return authorize(authToken);
+	})
+	.catch((error) => {
+		if (error instanceof ConstraintViolationError) {
+			return unauthorize('duplicate_user');
+		}
+		return unauthorize('something_went_wrong');
+	});
 
-const getUserByEmail = (email: string) =>
-	UserModel.query().where('email', email).first();
+const getUserByEmail = (email: string) => UserModel.query().where('email', email).first();
 
 export const createUser = async (newUser: UserType) => {
 	const values = await userSchema.validate(newUser);

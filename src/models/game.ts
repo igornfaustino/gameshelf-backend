@@ -53,7 +53,7 @@ export const GameModel = {
 			},
 		});
 		if (!gameStatus) return;
-		return gameStatusRepository.delete(gameStatus);
+		gameStatusRepository.delete(gameStatus);
 	},
 
 	addStatusToGame: async (props: any, context: Context) => {
@@ -76,13 +76,9 @@ export const GameModel = {
 		return game;
 	},
 
-	getGenres: async () => {
-		return await getRepository(Genre).find();
-	},
+	getGenres: async () => getRepository(Genre).find(),
 
-	getPlatforms: async () => {
-		return await getRepository(Platform).find();
-	},
+	getPlatforms: async () => getRepository(Platform).find(),
 
 	getGameStatus: async (obj: GameType, context: Context) => {
 		if (!context.user?.id) return null;

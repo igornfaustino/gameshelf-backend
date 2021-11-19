@@ -4,8 +4,7 @@ module.exports = {
 		es6: true,
 		node: true,
 	},
-	eslintIgnore: ['build/'],
-	extends: ['airbnb-base'],
+	extends: ['airbnb-base', 'airbnb-typescript/base'],
 	globals: {
 		Atomics: 'readonly',
 		SharedArrayBuffer: 'readonly',
@@ -13,11 +12,16 @@ module.exports = {
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaVersion: 2018,
+		project: './tsconfig.json',
 	},
 	plugins: ['@typescript-eslint'],
 	rules: {
 		'no-console': 'off',
 		'no-tabs': 'off',
-		indent: ['error', 'tab'],
+		indent: 'off',
+		'@typescript-eslint/indent': ['error', 'tab'],
+		'import/extensions': 'off',
+		'import/prefer-default-export': 'off',
+		'no-underscore-dangle': 'off'
 	},
 };

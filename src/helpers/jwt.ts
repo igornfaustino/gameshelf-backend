@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { SECRET } from '../helpers/env';
+import { SECRET } from './env';
 
 type TokenBody = {
 	email: string;
@@ -14,7 +14,7 @@ export const generateJWT = (body: TokenBody) => {
 
 export const parserJWT = (payload: string) => {
 	try {
-		const [type, token] = payload.split(' ');
+		const [, token] = payload.split(' ');
 		const decoded = jwt.verify(token, SECRET);
 		return decoded;
 	} catch {

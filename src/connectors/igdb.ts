@@ -1,5 +1,4 @@
 import apicalypse, { ApicalypseConfig } from 'apicalypse';
-import Bottleneck from 'bottleneck';
 import { getConnection } from 'typeorm';
 import { App } from '../entity/App';
 import { igdbTokenMiddleware } from '../helpers/request';
@@ -7,8 +6,7 @@ import { APIGame, Genre, Platform } from '../types/game';
 import { CLIENT_ID } from '../helpers/env';
 
 const BASE_URL = 'https://api.igdb.com/v4';
-const GAME_FIELDS =
-	'name,cover.url,genres.name,platforms.name,platforms.abbreviation';
+const GAME_FIELDS = 'name,cover.url,genres.name,platforms.name,platforms.abbreviation';
 
 export const requestOptions = async (): Promise<ApicalypseConfig> => {
 	const result = await getConnection()
@@ -17,7 +15,7 @@ export const requestOptions = async (): Promise<ApicalypseConfig> => {
 		.from(App, 'app')
 		.where('app.propName = :prop', { prop: 'igdb_auth_token' })
 		.getOne()
-		.catch((ex) => ({ value: '' }));
+		.catch(() => ({ value: '' }));
 	const auth = result?.value;
 	return {
 		baseURL: `${BASE_URL}`,
@@ -78,9 +76,7 @@ export const countGames = async (
 
 	if (whereStatement) query.where(whereStatement);
 
-	return igdbTokenMiddleware(query.request('/games/count')).then(
-		(res) => res.data,
-	);
+	return igdbTokenMiddleware(query.request('/games/count')).then((res) => res.data);
 };
 
 export const getPlatforms = async (): Promise<Platform[]> => {
@@ -89,9 +85,7 @@ export const getPlatforms = async (): Promise<Platform[]> => {
 		.sort('name', 'asc')
 		.limit(500);
 
-	return igdbTokenMiddleware(query.request('/platforms')).then(
-		(res) => res.data,
-	);
+	return igdbTokenMiddleware(query.request('/platforms')).then((res) => res.data);
 };
 
 export const getGenres = async (): Promise<Genre[]> => {
@@ -107,9 +101,7 @@ export const getGameByID = async (id: number): Promise<APIGame> => {
 	const query = apicalypse(await requestOptions())
 		.fields(GAME_FIELDS)
 		.where(`id=${id}`);
-	return igdbTokenMiddleware(query.request('/games')).then(
-		(res) => res.data[0],
-	);
+	return igdbTokenMiddleware(query.request('/games')).then((res) => res.data[0]);
 };
 
 export const getLast10ReleasedGames = async (): Promise<any[]> => {
@@ -125,7 +117,7 @@ export const getLast10ReleasedGames = async (): Promise<any[]> => {
 export const getTopRatingGames = async (): Promise<any[]> => {
 	const query = apicalypse(await requestOptions())
 		.fields(GAME_FIELDS)
-		.where(`cover!=null`)
+		.where('cover!=null')
 		.sort('rating', 'desc')
 		.limit(10);
 	return igdbTokenMiddleware(query.request('/games')).then((res) => res.data);

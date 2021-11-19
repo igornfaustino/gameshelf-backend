@@ -4,8 +4,11 @@ export default class UserModel extends Model {
 	static tableName = 'users';
 
 	id!: string;
+
 	name!: string;
+
 	email!: string;
+
 	password!: string;
 
 	static get jsonSchema() {

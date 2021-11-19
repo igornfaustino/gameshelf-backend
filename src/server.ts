@@ -1,13 +1,12 @@
 import 'reflect-metadata';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import { createConnection } from 'typeorm';
 import cors from 'cors';
 import Knex from 'knex';
 
+import { Model } from 'objection';
 import schema from './typedefs';
 import { parserJWT } from './helpers/jwt';
-import { Model } from 'objection';
 
 require('dotenv').config('.env');
 const knexConfig = require('../knexfile');

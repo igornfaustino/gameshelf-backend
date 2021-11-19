@@ -39,17 +39,14 @@ const resolvers: IResolvers = {
 		countGames: (_obj, args) => IgdbModel.countGames(args),
 		platforms: () => GameModel.getPlatforms(),
 		genres: () => GameModel.getGenres(),
-		gamesByStatus: (_obj, args, context) =>
-			GameModel.getGamesByStatus(args, context),
+		gamesByStatus: (_obj, args, context) => GameModel.getGamesByStatus(args, context),
 		home: () => IgdbModel.getHomeGames(),
 	},
 	Mutation: {
 		createUser: (_obj, args) => UserController.createUser(args),
 		login: (_obj, args) => UserController.login(args),
-		addStatusToGame: (_obj, args, context) =>
-			GameModel.addStatusToGame(args, context),
-		removeStatusToGame: (_obj, args, context) =>
-			GameModel.removeStatusToGame(args, context),
+		addStatusToGame: (_obj, args, context) => GameModel.addStatusToGame(args, context),
+		removeStatusToGame: (_obj, args, context) => GameModel.removeStatusToGame(args, context),
 	},
 };
 

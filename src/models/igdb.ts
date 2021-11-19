@@ -7,7 +7,9 @@ import {
 	searchGames,
 	getTopRatingGames,
 } from '../connectors/igdb';
-import { APIGame, Game, Genre, Platform } from '../types/game';
+import {
+	APIGame, Game, Genre, Platform,
+} from '../types/game';
 
 type SearchArgs = {
 	search: string;
