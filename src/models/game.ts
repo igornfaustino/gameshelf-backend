@@ -4,7 +4,7 @@ import { IgdbModel } from './igdb';
 import { Game as GameType } from '../types/game';
 import { StatusToGame } from '../entity/StatusToGame';
 
-import { Context } from '../types/graphQL';
+import { Context } from '../modules/shared/types/graphQL';
 import { unauthorize } from '../modules/shared/helpers/authResponses';
 
 export const GameModel = {
