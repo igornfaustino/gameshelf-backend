@@ -16,7 +16,8 @@ export const requestOptions = async (): Promise<ApicalypseConfig> => {
 		.select('app.value')
 		.from(App, 'app')
 		.where('app.propName = :prop', { prop: 'igdb_auth_token' })
-		.getOne();
+		.getOne()
+		.catch((ex) => ({ value: '' }));
 	const auth = result?.value;
 	return {
 		baseURL: `${BASE_URL}`,

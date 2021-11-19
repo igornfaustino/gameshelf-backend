@@ -18,7 +18,7 @@ const limiter = new Bottleneck({
 
 let authTokenRequest: AxiosPromise<AccessTokenRequest> | null;
 
-const requestAccessToken = () => {
+export const requestAccessToken = () => {
 	return axios.post(
 		TWITCH_AUTH_URL,
 		qs.stringify({

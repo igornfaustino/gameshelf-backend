@@ -6,7 +6,7 @@ import { StatusToGame } from '../entity/StatusToGame';
 import { Genre } from '../entity/Genre';
 import { Platform } from '../entity/Platform';
 import { Context } from '../types/graphQL';
-import { unauthorize } from './user';
+import { unauthorize } from '../modules/shared/helpers/authResponses';
 
 export const GameModel = {
 	_createOrUpdateGame: async (game: GameType) => {

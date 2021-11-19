@@ -5,11 +5,13 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node 'dist/server.js'",
-		"build": "tsc -p . && ncp src/schema dist/schema",
+		"start": "node 'dist/src/server.js'",
+		"build": "tsc -p .",
 		"dev": "npm run build:dev",
 		"build:dev": "nodemon --delay 500ms 'src/server.ts' --exec 'ts-node' src/server.ts -e ts,graphql",
-		"typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+		"typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+		"migrate": "knex migrate:latest",
+		"knex": "knex"
 	},
 	"author": "",
 	"license": "ISC",
@@ -40,7 +42,10 @@
 		"express": "^4.17.1",
 		"graphql": "^15.4.0",
 		"jsonwebtoken": "^8.5.1",
+		"knex": "^0.95.14",
 		"mysql": "^2.18.1",
+		"objection": "^3.0.0",
+		"pg": "^8.7.1",
 		"query-string": "^7.0.0",
 		"reflect-metadata": "^0.1.13",
 		"typeorm": "^0.2.30",

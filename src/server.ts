@@ -3,14 +3,18 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { createConnection } from 'typeorm';
 import cors from 'cors';
+import Knex from 'knex';
 
 import schema from './typedefs';
 import { parserJWT } from './helpers/jwt';
+import { Model } from 'objection';
 
 require('dotenv').config('.env');
+const knexConfig = require('../knexfile');
 
 const initServer = async () => {
-	const connection = await createConnection();
+	const knex = Knex(knexConfig);
+	Model.knex(knex);
 
 	const app = express();
 

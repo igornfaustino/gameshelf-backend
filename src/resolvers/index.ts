@@ -1,7 +1,7 @@
 import { IResolvers } from 'graphql-tools';
 import { GameModel } from '../models/game';
 import { IgdbModel } from '../models/igdb';
-import { UserModel } from '../models/user';
+import * as UserController from '../modules/user/controllers/userController';
 
 const resolvers: IResolvers = {
 	UserResult: {
@@ -44,8 +44,8 @@ const resolvers: IResolvers = {
 		home: () => IgdbModel.getHomeGames(),
 	},
 	Mutation: {
-		createUser: (_obj, args) => UserModel.createUser(args),
-		login: (_obj, args) => UserModel.Login(args),
+		createUser: (_obj, args) => UserController.createUser(args),
+		login: (_obj, args) => UserController.login(args),
 		addStatusToGame: (_obj, args, context) =>
 			GameModel.addStatusToGame(args, context),
 		removeStatusToGame: (_obj, args, context) =>

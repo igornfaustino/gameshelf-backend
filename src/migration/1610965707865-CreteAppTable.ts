@@ -1,4 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { requestAccessToken } from '../helpers/request';
 
 export class CreteAppTable1610965707865 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
@@ -18,6 +19,15 @@ export class CreteAppTable1610965707865 implements MigrationInterface {
 				],
 			}),
 		);
+
+		const res = await requestAccessToken();
+
+		await queryRunner.manager
+			.createQueryBuilder()
+			.insert()
+			.into('app', ['propName', 'value'])
+			.values({ propName: 'igdb_auth_token', value: res.data.access_token })
+			.execute();
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {

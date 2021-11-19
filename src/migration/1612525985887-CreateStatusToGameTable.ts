@@ -23,12 +23,12 @@ export class CreateListToGameTable1612525985887 implements MigrationInterface {
 					{ name: 'userId', type: 'varchar' },
 					{
 						name: 'created_at',
-						type: 'datetime',
+						type: 'timestamp',
 						default: 'CURRENT_TIMESTAMP',
 					},
 					{
 						name: 'updated_at',
-						type: 'datetime',
+						type: 'timestamp',
 						default: 'CURRENT_TIMESTAMP',
 						onUpdate: 'CURRENT_TIMESTAMP',
 					},
