@@ -1,6 +1,6 @@
 import apicalypse, { ApicalypseConfig } from 'apicalypse';
 import { igdbTokenMiddleware } from '../helpers/request';
-import { APIGame, Genre, Platform } from '../types/game';
+import { APIGame, Genre, Platform } from '../modules/games/types/game';
 import { CLIENT_ID } from '../helpers/env';
 import { getIgdbToken } from '../modules/shared/helpers/igdbToken';
 

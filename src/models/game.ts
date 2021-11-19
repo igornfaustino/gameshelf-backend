@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 import { Game } from '../entity/Game';
 import { IgdbModel } from './igdb';
-import { Game as GameType } from '../types/game';
+import { Game as GameType } from '../modules/games/types/game';
 import { StatusToGame } from '../entity/StatusToGame';
 
 import { Context } from '../modules/shared/types/graphQL';

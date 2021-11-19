@@ -9,7 +9,7 @@ import {
 } from '../connectors/igdb';
 import {
 	APIGame, Game, Genre, Platform,
-} from '../types/game';
+} from '../modules/games/types/game';
 
 type SearchArgs = {
 	search: string;
