@@ -3,8 +3,7 @@ import { Game } from '../entity/Game';
 import { IgdbModel } from './igdb';
 import { Game as GameType } from '../types/game';
 import { StatusToGame } from '../entity/StatusToGame';
-import { Genre } from '../entity/Genre';
-import { Platform } from '../entity/Platform';
+
 import { Context } from '../types/graphQL';
 import { unauthorize } from '../modules/shared/helpers/authResponses';
 
@@ -75,10 +74,6 @@ export const GameModel = {
 
 		return game;
 	},
-
-	getGenres: async () => getRepository(Genre).find(),
-
-	getPlatforms: async () => getRepository(Platform).find(),
 
 	getGameStatus: async (obj: GameType, context: Context) => {
 		if (!context.user?.id) return null;
