@@ -8,44 +8,34 @@ export const getGameById = (gameId: number) => prisma
 	.game
 	.findUnique({ where: { id: gameId } });
 
-export const createOrUpdateGame = async (game: Game) => prisma.game.upsert({
-	where: { id: game.id },
-	create: {
-		id: game.id,
+export const createOrUpdateGame = async (game: Game) => {
+	const gameBody = {
 		name: game.name,
 		cover: game.cover,
 		thumbnail: game.thumbnail,
 		genres: {
-			connectOrCreate: game.genres.map((genre) => ({
+			connectOrCreate: game.genres?.map((genre) => ({
 				where: { id: genre.id },
 				create: genre,
 			})),
 		},
 		platforms: {
-			connectOrCreate: game.platforms.map((platform) => ({
+			connectOrCreate: game.platforms?.map((platform) => ({
 				where: { id: platform.id },
 				create: platform,
 			})),
 		},
-	},
-	update: {
-		name: game.name,
-		cover: game.cover,
-		thumbnail: game.thumbnail,
-		genres: {
-			connectOrCreate: game.genres.map((genre) => ({
-				where: { id: genre.id },
-				create: genre,
-			})),
+	};
+
+	return prisma.game.upsert({
+		where: { id: game.id },
+		create: {
+			id: game.id,
+			...gameBody,
 		},
-		platforms: {
-			connectOrCreate: game.platforms.map((platform) => ({
-				where: { id: platform.id },
-				create: platform,
-			})),
-		},
-	},
-});
+		update: gameBody,
+	});
+};
 
 export const relateGameToSituation = (gameId: number, situationId: number, userId: string) => prisma
 	.userGameSituation
@@ -95,22 +85,29 @@ export const getGameStatus = async (obj: Game, context: Context) => {
 };
 
 export const getGamesByStatus = async (args: any, context: Context) => {
-	if (!context.user?.id) return unauthorize('user_not_found');
+	const userId = context.user?.id;
+	if (!userId) return unauthorize('user_not_found');
+
+	const where = {
+		UserGameSituation: {
+			some: { userId, situationId: args.statusId },
+		},
+	};
 
 	const games = await prisma.game.findMany({
-		where: {
-			UserGameSituation: {
-				every: { userId: context.user?.id, situationId: args.statusId },
-			},
+		select: {
+			id: true,
+			genres: true,
+			cover: true,
+			name: true,
+			platforms: true,
+			thumbnail: true,
 		},
+		where,
 	});
 
 	const count = await prisma.game.count({
-		where: {
-			UserGameSituation: {
-				every: { userId: context.user?.id, situationId: args.statusId },
-			},
-		},
+		where,
 	});
 
 	return {
