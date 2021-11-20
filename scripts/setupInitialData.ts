@@ -2,10 +2,10 @@
 /* eslint-disable no-await-in-loop */
 import { getGenres, getPlatforms } from '../src/connectors/igdb';
 import { prisma } from '../src/db';
-import { requestAccessToken } from '../src/helpers/request';
 import { createOrUpdateGenre } from '../src/modules/games/controllers/GenreController';
 import { saveOrUpdatePlatform } from '../src/modules/games/controllers/PlatformController';
 import { saveIgdbToken } from '../src/modules/shared/controllers/app';
+import { requestAccessToken } from '../src/modules/shared/helpers/request';
 
 const toPlay = 'to play';
 const playing = 'playing';

@@ -1,6 +1,6 @@
 import { IResolvers } from 'graphql-tools';
-import { GameModel } from '../models/game';
 import { IgdbModel } from '../models/igdb';
+import * as GameController from '../modules/games/controllers/GameController';
 import * as UserController from '../modules/user/controllers/userController';
 import * as GenreController from '../modules/games/controllers/GenreController';
 import * as PlatformController from '../modules/games/controllers/PlatformController';
@@ -34,21 +34,21 @@ const resolvers: IResolvers = {
 		},
 	},
 	Game: {
-		status: (obj, _args, context) => GameModel.getGameStatus(obj, context),
+		status: (obj, _args, context) => GameController.getGameStatus(obj, context),
 	},
 	Query: {
 		game: (_obj, args) => IgdbModel.searchGame(args),
 		countGames: (_obj, args) => IgdbModel.countGames(args),
 		platforms: () => PlatformController.getPlatforms(),
 		genres: () => GenreController.getGenres(),
-		gamesByStatus: (_obj, args, context) => GameModel.getGamesByStatus(args, context),
+		gamesByStatus: (_obj, args, context) => GameController.getGamesByStatus(args, context),
 		home: () => IgdbModel.getHomeGames(),
 	},
 	Mutation: {
 		createUser: (_obj, args) => UserController.createUser(args),
 		login: (_obj, args) => UserController.login(args),
-		addStatusToGame: (_obj, args, context) => GameModel.addStatusToGame(args, context),
-		removeStatusToGame: (_obj, args, context) => GameModel.removeStatusToGame(args, context),
+		addStatusToGame: (_obj, args, context) => GameController.addStatusToGame(args, context),
+		removeStatusToGame: (_obj, args, context) => GameController.removeStatusToGame(args, context),
 	},
 };
 

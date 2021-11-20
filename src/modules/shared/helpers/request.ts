@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosPromise } from 'axios';
 import Bottleneck from 'bottleneck';
 import qs from 'query-string';
-import { saveIgdbToken } from '../modules/shared/controllers/app';
+import { saveIgdbToken } from '../controllers/app';
 import { CLIENT_ID, CLIENT_SECRET } from './env';
 
 const TWITCH_AUTH_URL = 'https://id.twitch.tv/oauth2/token';

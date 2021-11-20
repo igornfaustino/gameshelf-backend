@@ -48,7 +48,6 @@
 		"graphql-tools": "^7.0.2",
 		"jsonwebtoken": "^8.5.1",
 		"query-string": "^7.0.0",
-		"typeorm": "^0.2.30",
 		"yup": "^0.32.8"
 	}
 }

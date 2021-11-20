@@ -28,22 +28,39 @@ model Platform {
 }
 
 model User {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
+  id                String              @id @default(uuid())
+  name              String
+  email             String              @unique
+  password          String
+  UserGameSituation UserGameSituation[]
 }
 
 model Game {
-  id        Int        @id
-  name      String
-  cover     String?
-  thumbnail String?
-  genres    Genre[]
-  platforms Platform[]
+  id                Int                 @id
+  name              String
+  cover             String?
+  thumbnail         String?
+  genres            Genre[]
+  platforms         Platform[]
+  UserGameSituation UserGameSituation[]
 }
 
 model Situation {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id                Int                 @id @default(autoincrement())
+  name              String              @unique
+  UserGameSituation UserGameSituation[]
+}
+
+model UserGameSituation {
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  game   Game @relation(fields: [gameId], references: [id])
+  gameId Int
+
+  situation   Situation @relation(fields: [situationId], references: [id])
+  situationId Int
+
+
+  @@id([userId, gameId])
 }

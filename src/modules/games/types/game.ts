@@ -10,7 +10,7 @@ export type Genre = {
 };
 
 export type Game = {
-	id: any;
+	id: number;
 	name: string;
 	cover?: string;
 	thumbnail?: string;

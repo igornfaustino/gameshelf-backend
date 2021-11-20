@@ -2,7 +2,7 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 
 import schema from './typedefs';
-import { parserJWT } from './helpers/jwt';
+import { parserJWT } from './modules/shared/helpers/jwt';
 
 require('dotenv').config('.env');
 
