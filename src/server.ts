@@ -20,7 +20,7 @@ const initServer = async () => {
 		cacheControl: true,
 	});
 
-	server.applyMiddleware({ app, path: '/graphql', cors: false });
+	server.applyMiddleware({ app, path: '/graphql', cors: true });
 
 	app.listen({ port: 8000 }, () => {
 		console.log('Apollo Server on http://localhost:8000/graphql');
