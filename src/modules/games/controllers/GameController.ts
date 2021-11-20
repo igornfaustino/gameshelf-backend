@@ -1,5 +1,5 @@
-import { prisma } from '../../../db';
-import { IgdbModel } from '../../../models/igdb';
+import { prisma } from '../../../../prisma';
+import * as IgdbController from '../../igdb/controllers/igdb';
 import { unauthorize } from '../../shared/helpers/authResponses';
 import { Context } from '../../shared/types/graphQL';
 import { Game } from '../types/game';
@@ -52,7 +52,7 @@ export const removeGameSituation = (gameId: number, userId: string) => prisma
 export const addStatusToGame = async (props: any, context: Context) => {
 	const userId = context.user?.id;
 	if (!userId) return unauthorize('user_not_found');
-	const game = await IgdbModel.getGameByID(props.gameId);
+	const game = await IgdbController.getGameByID(props.gameId);
 
 	await createOrUpdateGame(game);
 	await relateGameToSituation(game.id, props.statusId, userId);

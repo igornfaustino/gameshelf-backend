@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 
 import bcrypt from 'bcrypt';
-import { prisma } from '../../../db';
+import { prisma } from '../../../../prisma';
 import { authorize, unauthorize } from '../../shared/helpers/authResponses';
 import { generateJWT } from '../../shared/helpers/jwt';
 

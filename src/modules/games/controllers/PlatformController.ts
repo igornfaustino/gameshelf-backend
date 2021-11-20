@@ -1,4 +1,4 @@
-import { prisma } from '../../../db';
+import { prisma } from '../../../../prisma';
 import { Platform } from '../types/game';
 
 export const getPlatforms = () => prisma.platform.findMany();

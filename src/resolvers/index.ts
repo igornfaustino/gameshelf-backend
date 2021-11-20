@@ -1,5 +1,5 @@
 import { IResolvers } from 'graphql-tools';
-import { IgdbModel } from '../models/igdb';
+import * as IgdbController from '../modules/igdb/controllers/igdb';
 import * as GameController from '../modules/games/controllers/GameController';
 import * as UserController from '../modules/user/controllers/userController';
 import * as GenreController from '../modules/games/controllers/GenreController';
@@ -37,12 +37,12 @@ const resolvers: IResolvers = {
 		status: (obj, _args, context) => GameController.getGameStatus(obj, context),
 	},
 	Query: {
-		game: (_obj, args) => IgdbModel.searchGame(args),
-		countGames: (_obj, args) => IgdbModel.countGames(args),
+		game: (_obj, args) => IgdbController.searchGame(args),
+		countGames: (_obj, args) => IgdbController.countGames(args),
 		platforms: () => PlatformController.getPlatforms(),
 		genres: () => GenreController.getGenres(),
 		gamesByStatus: (_obj, args, context) => GameController.getGamesByStatus(args, context),
-		home: () => IgdbModel.getHomeGames(),
+		home: () => IgdbController.getHomeGames(),
 	},
 	Mutation: {
 		createUser: (_obj, args) => UserController.createUser(args),
