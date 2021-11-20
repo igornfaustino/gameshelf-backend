@@ -13,14 +13,18 @@ model app {
 }
 
 model genres {
-  id   Int    @id
-  name String
+  id      Int     @id
+  name    String
+  games   games[]
+  gamesId Int?
 }
 
 model platforms {
   id           Int     @id
   name         String
   abbreviation String?
+  games        games[]
+  gamesId      Int?
 }
 
 model users {
@@ -28,4 +32,13 @@ model users {
   name     String
   email    String @unique
   password String
+}
+
+model games {
+  id        Int         @id
+  name      String
+  cover     String?
+  thumbnail String?
+  genres    genres[]
+  platforms platforms[]
 }
