@@ -1,16 +1,17 @@
+import { PrismaClient, Prisma } from '@prisma/client';
+
 import bcrypt from 'bcrypt';
-import { ConstraintViolationError } from 'objection';
 import { generateJWT } from '../../../helpers/jwt';
 import { authorize, unauthorize } from '../../shared/helpers/authResponses';
-import UserModel from '../models/userModel';
 
 import { LoginType, UserType } from '../types/userTypes';
 import { loginSchema, userSchema } from '../validations/user';
 
 const saltRounds = 10;
 
-const saveUser = (user: UserType) => UserModel.query()
-	.insert(user)
+const prisma = new PrismaClient();
+
+const saveUser = (user: UserType) => prisma.users.create({ data: user })
 	.then((newUser) => {
 		const authToken = generateJWT({
 			id: newUser.id,
@@ -20,13 +21,16 @@ const saveUser = (user: UserType) => UserModel.query()
 		return authorize(authToken);
 	})
 	.catch((error) => {
-		if (error instanceof ConstraintViolationError) {
-			return unauthorize('duplicate_user');
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
+			if (error.code === 'P2002') {
+				return unauthorize('duplicate_user');
+			}
 		}
+
 		return unauthorize('something_went_wrong');
 	});
 
-const getUserByEmail = (email: string) => UserModel.query().where('email', email).first();
+const getUserByEmail = (email: string) => prisma.users.findUnique({ where: { email } });
 
 export const createUser = async (newUser: UserType) => {
 	const values = await userSchema.validate(newUser);

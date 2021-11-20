@@ -2,7 +2,7 @@ import apicalypse, { ApicalypseConfig } from 'apicalypse';
 import { igdbTokenMiddleware } from '../helpers/request';
 import { APIGame, Genre, Platform } from '../modules/games/types/game';
 import { CLIENT_ID } from '../helpers/env';
-import { getIgdbToken } from '../modules/shared/helpers/igdbToken';
+import { getIgdbToken } from '../modules/shared/controllers/app';
 
 const BASE_URL = 'https://api.igdb.com/v4';
 const GAME_FIELDS = 'name,cover.url,genres.name,platforms.name,platforms.abbreviation';

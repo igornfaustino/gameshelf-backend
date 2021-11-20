@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosPromise } from 'axios';
 import Bottleneck from 'bottleneck';
 import qs from 'query-string';
-import AppModel from '../modules/shared/model/app';
+import { saveIgdbToken } from '../modules/shared/controllers/app';
 import { CLIENT_ID, CLIENT_SECRET } from './env';
 
 const TWITCH_AUTH_URL = 'https://id.twitch.tv/oauth2/token';
@@ -31,8 +31,6 @@ export const requestAccessToken = () => axios.post(
 	},
 );
 
-const saveAccessToken = async (token: string) => AppModel.query().findById('igdb_auth_token').patch({ value: token });
-
 function getAuthTokenSingleton() {
 	if (!authTokenRequest) {
 		authTokenRequest = requestAccessToken();
@@ -48,7 +46,7 @@ const handleRequestError = (error: AxiosError) => {
 		return getAuthTokenSingleton()
 			.then(async (res) => {
 				response.config.headers.Authorization = `Bearer ${res.data.access_token}`;
-				await saveAccessToken(res.data.access_token);
+				await saveIgdbToken(res.data.access_token);
 				return limiter.schedule(() => axios(response.config));
 			})
 			.catch(() => {
