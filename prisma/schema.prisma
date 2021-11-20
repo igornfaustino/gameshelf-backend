@@ -42,3 +42,8 @@ model games {
   genres    genres[]
   platforms platforms[]
 }
+
+model situations {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
