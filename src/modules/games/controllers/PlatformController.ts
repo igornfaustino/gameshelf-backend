@@ -1,7 +1,5 @@
-import { PrismaClient } from '.prisma/client';
+import { prisma } from '../../../db';
 import { Platform } from '../types/game';
-
-const prisma = new PrismaClient();
 
 export const getPlatforms = () => prisma.platforms.findMany();
 

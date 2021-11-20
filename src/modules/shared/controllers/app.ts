@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../../../db';
 
 export const getIgdbToken = async () => {
 	const entry = await prisma.app.findUnique({ where: { key: 'igdb_auth_token' } });

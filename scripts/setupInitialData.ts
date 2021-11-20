@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import { getGenres, getPlatforms } from '../src/connectors/igdb';
 import { requestAccessToken } from '../src/helpers/request';
 import { createOrUpdateGenre } from '../src/modules/games/controllers/GenreController';
@@ -9,14 +11,14 @@ export const setupInitialData = async () => {
 	await saveIgdbToken(res.data.access_token);
 
 	const genres = await getGenres();
-	genres.map(async (genre) => {
+	for (const genre of genres) {
 		await createOrUpdateGenre(genre);
-	});
+	}
 
 	const platforms = await getPlatforms();
-	platforms.map(async (platform) => {
+	for (const platform of platforms) {
 		await saveOrUpdatePlatform(platform);
-	});
+	}
 };
 
 setupInitialData();

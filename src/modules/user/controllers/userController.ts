@@ -1,6 +1,7 @@
-import { PrismaClient, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import bcrypt from 'bcrypt';
+import { prisma } from '../../../db';
 import { generateJWT } from '../../../helpers/jwt';
 import { authorize, unauthorize } from '../../shared/helpers/authResponses';
 
@@ -8,8 +9,6 @@ import { LoginType, UserType } from '../types/userTypes';
 import { loginSchema, userSchema } from '../validations/user';
 
 const saltRounds = 10;
-
-const prisma = new PrismaClient();
 
 const saveUser = (user: UserType) => prisma.users.create({ data: user })
 	.then((newUser) => {
