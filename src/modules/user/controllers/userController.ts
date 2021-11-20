@@ -10,7 +10,7 @@ import { loginSchema, userSchema } from '../validations/user';
 
 const saltRounds = 10;
 
-const saveUser = (user: UserType) => prisma.users.create({ data: user })
+const saveUser = (user: UserType) => prisma.user.create({ data: user })
 	.then((newUser) => {
 		const authToken = generateJWT({
 			id: newUser.id,
@@ -29,7 +29,7 @@ const saveUser = (user: UserType) => prisma.users.create({ data: user })
 		return unauthorize('something_went_wrong');
 	});
 
-const getUserByEmail = (email: string) => prisma.users.findUnique({ where: { email } });
+const getUserByEmail = (email: string) => prisma.user.findUnique({ where: { email } });
 
 export const createUser = async (newUser: UserType) => {
 	const values = await userSchema.validate(newUser);

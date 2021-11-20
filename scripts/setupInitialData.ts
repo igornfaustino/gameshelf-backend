@@ -26,22 +26,22 @@ export const setupInitialData = async () => {
 		await saveOrUpdatePlatform(platform);
 	}
 
-	await prisma.situations.upsert({
+	await prisma.situation.upsert({
 		where: { name: toPlay },
 		create: { name: toPlay },
 		update: { name: toPlay },
 	});
-	await prisma.situations.upsert({
+	await prisma.situation.upsert({
 		where: { name: playing },
 		create: { name: playing },
 		update: { name: playing },
 	});
-	await prisma.situations.upsert({
+	await prisma.situation.upsert({
 		where: { name: completed },
 		create: { name: completed },
 		update: { name: completed },
 	});
-	await prisma.situations.upsert({
+	await prisma.situation.upsert({
 		where: { name: abandoned },
 		create: { name: abandoned },
 		update: { name: abandoned },

@@ -7,43 +7,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model app {
+model AppSettings {
   key   String @id
   value String
 }
 
-model genres {
-  id      Int     @id
+model Genre {
+  id      Int    @id
   name    String
-  games   games[]
+  games   Game[]
   gamesId Int?
 }
 
-model platforms {
+model Platform {
   id           Int     @id
   name         String
   abbreviation String?
-  games        games[]
+  games        Game[]
   gamesId      Int?
 }
 
-model users {
+model User {
   id       String @id @default(uuid())
   name     String
   email    String @unique
   password String
 }
 
-model games {
-  id        Int         @id
+model Game {
+  id        Int        @id
   name      String
   cover     String?
   thumbnail String?
-  genres    genres[]
-  platforms platforms[]
+  genres    Genre[]
+  platforms Platform[]
 }
 
-model situations {
+model Situation {
   id   Int    @id @default(autoincrement())
   name String @unique
 }
