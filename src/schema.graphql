@@ -1,0 +1,83 @@
+type User {
+	name: String
+	email: String
+}
+
+type Authorized {
+	token: String
+}
+
+type Unauthorized {
+	reason: String
+}
+
+union UserResult = Authorized | Unauthorized
+
+type Genre {
+	id: ID
+	name: String!
+}
+
+type Platform {
+	id: ID
+	name: String!
+	abbreviation: String
+}
+
+type Game {
+	id: ID
+	name: String
+	cover: String
+	thumbnail: String
+	genres: [Genre]
+	platforms: [Platform]
+	status: String
+}
+
+directive @cacheControl(
+	maxAge: Int
+	scope: CacheControlScope
+) on OBJECT | FIELD_DEFINITION
+enum CacheControlScope {
+	PUBLIC
+	PRIVATE
+}
+
+type GamesByStatus {
+	games: [Game]
+	count: Int
+}
+
+type Home {
+	releases: [Game]
+	popular: [Game]
+}
+
+union GameResult = Game | Unauthorized
+union GamesByStatusResult = GamesByStatus | Unauthorized
+
+type Query {
+	game(
+		search: String!
+		platforms: [Int]
+		genres: [Int]
+		limit: Int
+		offset: Int
+	): [Game]
+
+	countGames(search: String!, platforms: [Int], genres: [Int]): Int
+
+	platforms: [Platform] @cacheControl(maxAge: 43200)
+
+	genres: [Genre] @cacheControl(maxAge: 43200)
+
+	gamesByStatus(statusId: Int): GamesByStatusResult
+	home: Home
+}
+
+type Mutation {
+	createUser(name: String!, email: String, password: String): UserResult
+	login(email: String, password: String): UserResult
+	addStatusToGame(gameId: ID, statusId: Int): GameResult
+	removeStatusToGame(gameId: ID): GameResult
+}

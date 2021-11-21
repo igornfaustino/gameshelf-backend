@@ -1,9 +1,9 @@
 import { IResolvers } from 'graphql-tools';
-import * as IgdbController from '../modules/igdb/controllers/igdb';
-import * as GameController from '../modules/games/controllers/GameController';
-import * as UserController from '../modules/user/controllers/userController';
-import * as GenreController from '../modules/games/controllers/GenreController';
-import * as PlatformController from '../modules/games/controllers/PlatformController';
+import * as IgdbController from './modules/igdb/controllers/igdb';
+import * as GameController from './modules/games/controllers/GameController';
+import * as UserController from './modules/user/controllers/userController';
+import * as GenreController from './modules/games/controllers/GenreController';
+import * as PlatformController from './modules/games/controllers/PlatformController';
 
 const resolvers: IResolvers = {
 	UserResult: {

@@ -1,12 +1,10 @@
 import 'graphql-import-node';
 import { makeExecutableSchema } from 'graphql-tools';
 import { GraphQLSchema } from 'graphql';
-import * as Query from './schema.graphql';
-import * as Game from './game.graphql';
-import * as User from './user.graphql';
-import resolvers from '../resolvers';
+import * as Schema from './schema.graphql';
+import resolvers from './resolver';
 
-const typeDefs = [Query, Game, User];
+const typeDefs = [Schema];
 
 const schema: GraphQLSchema = makeExecutableSchema({
 	typeDefs,
