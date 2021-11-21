@@ -1,30 +1,29 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 
-import schema from './typedefs';
+import schema from './typedef';
 import { parserJWT } from './modules/shared/helpers/jwt';
+import { PORT } from './modules/shared/helpers/env';
 
 require('dotenv').config('.env');
 
-const initServer = async () => {
-	const app = express();
+const port = PORT || 8000;
 
-	const server = new ApolloServer({
-		schema,
-		context: ({ req }) => {
-			const token = req.headers.authorization || '';
-			const user = parserJWT(token);
-			return { user };
-		},
-		playground: true,
-		cacheControl: true,
-	});
+const app = express();
 
-	server.applyMiddleware({ app, path: '/graphql', cors: true });
+const server = new ApolloServer({
+	schema,
+	context: ({ req }) => {
+		const token = req.headers.authorization || '';
+		const user = parserJWT(token);
+		return { user };
+	},
+	playground: true,
+	cacheControl: true,
+});
 
-	app.listen({ port: 8000 }, () => {
-		console.log('Apollo Server on http://localhost:8000/graphql');
-	});
-};
+server.applyMiddleware({ app, path: '/graphql', cors: true });
 
-initServer();
+app.listen({ port }, () => {
+	console.log(`Apollo Server running on port ${port}`);
+});
