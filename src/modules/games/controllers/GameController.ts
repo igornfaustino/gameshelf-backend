@@ -1,4 +1,4 @@
-import { prisma } from '../../../../prisma';
+import { prisma } from '../../../config/prisma';
 import * as IgdbController from '../../igdb/controllers/igdb';
 import { unauthorize } from '../../shared/helpers/authResponses';
 import { Context } from '../../shared/types/graphQL';

@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 import { getGenres, getPlatforms } from '../src/modules/igdb/services/igdb';
-import { prisma } from '../prisma';
+import { prisma } from '../src/config/prisma';
 import { createOrUpdateGenre } from '../src/modules/games/controllers/GenreController';
 import { saveOrUpdatePlatform } from '../src/modules/games/controllers/PlatformController';
 import { saveIgdbToken } from '../src/modules/shared/controllers/app';

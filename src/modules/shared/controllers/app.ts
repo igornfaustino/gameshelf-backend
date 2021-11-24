@@ -1,4 +1,4 @@
-import { prisma } from '../../../../prisma';
+import { prisma } from '../../../config/prisma';
 
 export const getIgdbToken = async () => {
 	const entry = await prisma.appSettings.findUnique({ where: { key: 'igdb_auth_token' } });
