@@ -68,18 +68,3 @@ export const removeStatusToGame = async (props: any, context: Context) => {
 
 	return getGameById(Number(props.gameId));
 };
-
-export const getGameStatus = async (obj: Game, context: Context) => {
-	if (!context.user?.id) return null;
-	const result = await prisma.userGameSituation
-		.findUnique({
-			select: { situation: true },
-			where: {
-				userId_gameId: {
-					gameId: obj.id,
-					userId: context.user.id,
-				},
-			},
-		});
-	return result?.situation.name || null;
-};

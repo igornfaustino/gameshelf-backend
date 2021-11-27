@@ -6,6 +6,7 @@ import { searchGameController } from './features/searchGames';
 import { getAllPlatformController } from './features/getAllPlatforms';
 import { getAllGenresController } from './features/getAllGenres';
 import { getUsersGamesBySituationController } from './features/getUsersGamesBySituations';
+import { getSituationsByGameController } from './features/getSituationByGame';
 
 const resolvers: IResolvers = {
 	UserResult: {
@@ -36,7 +37,7 @@ const resolvers: IResolvers = {
 		},
 	},
 	Game: {
-		status: (obj, _args, context) => GameController.getGameStatus(obj, context),
+		status: getSituationsByGameController.handle,
 	},
 	Query: {
 		game: searchGameController.handle,
