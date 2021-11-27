@@ -17,11 +17,6 @@ const APIGameToGameModel = (game: APIGame): Game => ({
 	thumbnail: game.cover?.url?.replace('t_thumb', 't_cover_small'),
 });
 
-export const countGames = async (args: SearchArgs): Promise<Number> => {
-	const data = await IgdbService.countGames(args.search, args.genres, args.platforms);
-	return data.count;
-};
-
 export const getPlatforms = async (): Promise<Platform[]> => {
 	const platforms = await IgdbService.getPlatforms();
 	return platforms;

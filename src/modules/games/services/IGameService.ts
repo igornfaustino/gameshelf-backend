@@ -10,4 +10,5 @@ export type ISearchArgs = {
 
 export interface IGameService {
 	searchGames(filters: ISearchArgs): Promise<Game[]>
+	countGames(filters: ISearchArgs): Promise<number>
 }

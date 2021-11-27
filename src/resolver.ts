@@ -8,6 +8,7 @@ import { getUsersGamesBySituationController } from './features/getUsersGamesBySi
 import { getSituationsByGameController } from './features/getSituationByGame';
 import { createUserController } from './features/createUser';
 import { loginController } from './features/login';
+import { countGameController } from './features/countGames';
 
 const resolvers: IResolvers = {
 	UserResult: {
@@ -42,7 +43,7 @@ const resolvers: IResolvers = {
 	},
 	Query: {
 		game: searchGameController.handle,
-		countGames: (_obj, args) => IgdbController.countGames(args),
+		countGames: countGameController.handle,
 		platforms: getAllPlatformController.handle,
 		genres: getAllGenresController.handle,
 		gamesByStatus: getUsersGamesBySituationController.handle,

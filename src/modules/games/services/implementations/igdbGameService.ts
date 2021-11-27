@@ -52,4 +52,21 @@ export class IgdbGameService implements IGameService {
 			.then((res): Promise<APIGame[]> => res.data)
 			.then((games) => games.map((game) => GameConvertHelper.GameAPI2GameModel(game)));
 	}
+
+	async countGames(filters: ISearchArgs): Promise<number> {
+		const {
+			search, genres, platforms,
+		} = filters;
+
+		const query = apicalypse(await this.getRequestOptions())
+			.fields('id')
+			.search(search);
+
+		const whereStatement = this.makeSearchGameCondition(platforms, genres);
+
+		if (whereStatement) query.where(whereStatement);
+
+		return igdbTokenMiddleware(query.request('/games/count'))
+			.then((res) => res.data?.count || 0);
+	}
 }
