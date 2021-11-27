@@ -3,8 +3,8 @@ import * as IgdbController from './modules/igdb/controllers/igdb';
 import * as GameController from './modules/games/controllers/GameController';
 import * as UserController from './modules/user/controllers/userController';
 import * as GenreController from './modules/games/controllers/GenreController';
-import * as PlatformController from './modules/games/controllers/PlatformController';
 import { searchGameController } from './features/searchGames';
+import { getAllPlatformController } from './features/getAllPlatforms';
 
 const resolvers: IResolvers = {
 	UserResult: {
@@ -40,7 +40,7 @@ const resolvers: IResolvers = {
 	Query: {
 		game: searchGameController.handle,
 		countGames: (_obj, args) => IgdbController.countGames(args),
-		platforms: () => PlatformController.getPlatforms(),
+		platforms: getAllPlatformController.handle,
 		genres: () => GenreController.getGenres(),
 		gamesByStatus: (_obj, args, context) => GameController.getGamesByStatus(args, context),
 		home: () => IgdbController.getHomeGames(),

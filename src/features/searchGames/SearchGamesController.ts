@@ -7,7 +7,6 @@ export class SearchGameController {
 	) {}
 
 	handle = async (_obj: any, args: ISearchArgs) => {
-		console.log(this);
 		const games = await this.searchGameFeature.execute(args);
 		return games;
 	};

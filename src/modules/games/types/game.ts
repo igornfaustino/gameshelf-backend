@@ -1,7 +1,7 @@
 export type Platform = {
 	id: any;
 	name: string;
-	abbreviation: string;
+	abbreviation: string | null;
 };
 
 export type Genre = {
