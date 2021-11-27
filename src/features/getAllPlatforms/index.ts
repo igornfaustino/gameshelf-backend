@@ -3,10 +3,10 @@ import { GetAllPlatformsFeature } from './GetAllPlatformsFeature';
 import { GetAllPlatformsController } from './GetAllPlatoformsController';
 
 const platformRepository = new PrismaPlatformRepository();
-const getAllPlatformFeature = new GetAllPlatformsFeature(platformRepository);
-const getAllPlatformController = new GetAllPlatformsController(getAllPlatformFeature);
+const getAllPlatformsFeature = new GetAllPlatformsFeature(platformRepository);
+const getAllPlatformController = new GetAllPlatformsController(getAllPlatformsFeature);
 
 export {
 	getAllPlatformController,
-	GetAllPlatformsFeature,
+	getAllPlatformsFeature,
 };

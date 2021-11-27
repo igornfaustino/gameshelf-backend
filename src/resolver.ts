@@ -2,9 +2,9 @@ import { IResolvers } from 'graphql-tools';
 import * as IgdbController from './modules/igdb/controllers/igdb';
 import * as GameController from './modules/games/controllers/GameController';
 import * as UserController from './modules/user/controllers/userController';
-import * as GenreController from './modules/games/controllers/GenreController';
 import { searchGameController } from './features/searchGames';
 import { getAllPlatformController } from './features/getAllPlatforms';
+import { getAllGenresController } from './features/getAllGenres';
 
 const resolvers: IResolvers = {
 	UserResult: {
@@ -41,7 +41,7 @@ const resolvers: IResolvers = {
 		game: searchGameController.handle,
 		countGames: (_obj, args) => IgdbController.countGames(args),
 		platforms: getAllPlatformController.handle,
-		genres: () => GenreController.getGenres(),
+		genres: getAllGenresController.handle,
 		gamesByStatus: (_obj, args, context) => GameController.getGamesByStatus(args, context),
 		home: () => IgdbController.getHomeGames(),
 	},

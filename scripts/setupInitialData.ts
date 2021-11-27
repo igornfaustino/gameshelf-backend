@@ -1,9 +1,7 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-await-in-loop */
 import { getGenres, getPlatforms } from '../src/modules/igdb/services/igdb';
 import { prisma } from '../src/config/prisma';
-import { createOrUpdateGenre } from '../src/modules/games/controllers/GenreController';
 import { PrismaPlatformRepository } from '../src/modules/games/repositories/implementations/PrismaPlatformRepository';
+import { PrismaGenreRepository } from '../src/modules/games/repositories/implementations/PrismaGenreRepository'
 import { saveIgdbToken } from '../src/modules/shared/controllers/app';
 import { requestAccessToken } from '../src/modules/shared/helpers/request';
 
@@ -17,13 +15,15 @@ const setupInitialData = async () => {
 	const res = await requestAccessToken();
 	await saveIgdbToken(res.data.access_token);
 	
+	
 	const genres = await getGenres();
+	const genreRepository = new PrismaGenreRepository()
 	for (const genre of genres) {
-		await createOrUpdateGenre(genre);
+		await genreRepository.saveOrUpdateGenre(genre);
 	}
 	
-	const platformRepository = new PrismaPlatformRepository()
 	const platforms = await getPlatforms();
+	const platformRepository = new PrismaPlatformRepository()
 	for (const platform of platforms) {
 		await platformRepository.saveOrUpdatePlatform(platform);
 	}
