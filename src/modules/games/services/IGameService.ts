@@ -13,4 +13,7 @@ export interface IGameService {
 	countGames(filters: ISearchArgs): Promise<number>
 	getPlatforms(): Promise<Platform[]>
 	getGenres(): Promise<Genre[]>
+	getGameByID(id: number): Promise<Game>
+	getLast10ReleasedGames(): Promise<Game[]>
+	getTopRatingGames(): Promise<Game[]>
 }

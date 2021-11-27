@@ -34,6 +34,16 @@ export class IgdbGameService implements IGameService {
 		return whereStatement.join('&');
 	}
 
+	async getGameByID(id: number) {
+		const query = apicalypse(await this.getRequestOptions())
+			.fields(GAME_FIELDS)
+			.where(`id=${id}`);
+
+		return igdbTokenMiddleware(query.request('/games'))
+			.then((res): APIGame => res.data[0])
+			.then((game) => GameConvertHelper.GameAPI2GameModel(game));
+	}
+
 	async searchGames(filterOptions: ISearchArgs) {
 		const {
 			search, genres, platforms, limit = 50, offset = 0,
@@ -86,5 +96,30 @@ export class IgdbGameService implements IGameService {
 			.limit(500);
 
 		return igdbTokenMiddleware(query.request('/genres')).then((res) => res.data);
+	}
+
+	async getLast10ReleasedGames() {
+		const currentTimestamp = Math.floor(Date.now() / 1000);
+		const query = apicalypse(await this.getRequestOptions())
+			.fields(GAME_FIELDS)
+			.where(`first_release_date<${currentTimestamp} & cover!=null`)
+			.sort('first_release_date', 'desc')
+			.limit(10);
+
+		return igdbTokenMiddleware(query.request('/games'))
+			.then((res):APIGame[] => res.data)
+			.then((games) => games.map((game) => GameConvertHelper.GameAPI2GameModel(game)));
+	}
+
+	async getTopRatingGames() {
+		const query = apicalypse(await this.getRequestOptions())
+			.fields(GAME_FIELDS)
+			.where('cover!=null')
+			.sort('rating', 'desc')
+			.limit(10);
+
+		return igdbTokenMiddleware(query.request('/games'))
+			.then((res):APIGame[] => res.data)
+			.then((games) => games.map((game) => GameConvertHelper.GameAPI2GameModel(game)));
 	}
 }

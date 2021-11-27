@@ -20,17 +20,6 @@ export const requestOptions = async (): Promise<ApicalypseConfig> => {
 	};
 };
 
-const makeSearchGameCondition = (platforms?: any[], genres?: any[]) => {
-	const whereStatement = ['cover!=null'];
-	if (genres) {
-		whereStatement.push(`genres=(${genres.join(',')})`);
-	}
-	if (platforms) {
-		whereStatement.push(`platforms=(${platforms.join(',')})`);
-	}
-	return whereStatement.join('&');
-};
-
 export const getGameByID = async (id: number): Promise<APIGame> => {
 	const query = apicalypse(await requestOptions())
 		.fields(GAME_FIELDS)
