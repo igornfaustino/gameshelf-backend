@@ -1,6 +1,6 @@
 import * as IgdbService from '../services/igdb';
 import {
-	APIGame, Game, Genre, Platform,
+	APIGame, Game, Genre,
 } from '../../games/types/game';
 
 const APIGameToGameModel = (game: APIGame): Game => ({
@@ -8,11 +8,6 @@ const APIGameToGameModel = (game: APIGame): Game => ({
 	cover: game.cover?.url?.replace('t_thumb', 't_cover_big'),
 	thumbnail: game.cover?.url?.replace('t_thumb', 't_cover_small'),
 });
-
-export const getGenres = async (): Promise<Genre[]> => {
-	const genres = await IgdbService.getGenres();
-	return genres;
-};
 
 export const getGameByID = async (id: number): Promise<Game> => {
 	const game = await IgdbService.getGameByID(id);

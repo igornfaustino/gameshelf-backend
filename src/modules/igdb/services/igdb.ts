@@ -1,5 +1,5 @@
 import apicalypse, { ApicalypseConfig } from 'apicalypse';
-import { APIGame, Genre } from '../../games/types/game';
+import { APIGame } from '../../games/types/game';
 import { CLIENT_ID } from '../../shared/helpers/env';
 import { getIgdbToken } from '../../shared/controllers/app';
 import { igdbTokenMiddleware } from '../../shared/helpers/request';
@@ -29,35 +29,6 @@ const makeSearchGameCondition = (platforms?: any[], genres?: any[]) => {
 		whereStatement.push(`platforms=(${platforms.join(',')})`);
 	}
 	return whereStatement.join('&');
-};
-
-type Count = {
-	count: number;
-};
-
-export const countGames = async (
-	search: string,
-	genres?: number[],
-	platforms?: number[],
-): Promise<Count> => {
-	const query = apicalypse(await requestOptions())
-		.fields('id')
-		.search(search);
-
-	const whereStatement = makeSearchGameCondition(platforms, genres);
-
-	if (whereStatement) query.where(whereStatement);
-
-	return igdbTokenMiddleware(query.request('/games/count')).then((res) => res.data);
-};
-
-export const getGenres = async (): Promise<Genre[]> => {
-	const query = apicalypse(await requestOptions())
-		.fields('name')
-		.sort('name', 'asc')
-		.limit(500);
-
-	return igdbTokenMiddleware(query.request('/genres')).then((res) => res.data);
 };
 
 export const getGameByID = async (id: number): Promise<APIGame> => {
