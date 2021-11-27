@@ -5,6 +5,7 @@ import * as UserController from './modules/user/controllers/userController';
 import { searchGameController } from './features/searchGames';
 import { getAllPlatformController } from './features/getAllPlatforms';
 import { getAllGenresController } from './features/getAllGenres';
+import { getUsersGamesBySituationController } from './features/getUsersGamesBySituations';
 
 const resolvers: IResolvers = {
 	UserResult: {
@@ -42,7 +43,7 @@ const resolvers: IResolvers = {
 		countGames: (_obj, args) => IgdbController.countGames(args),
 		platforms: getAllPlatformController.handle,
 		genres: getAllGenresController.handle,
-		gamesByStatus: (_obj, args, context) => GameController.getGamesByStatus(args, context),
+		gamesByStatus: getUsersGamesBySituationController.handle,
 		home: () => IgdbController.getHomeGames(),
 	},
 	Mutation: {

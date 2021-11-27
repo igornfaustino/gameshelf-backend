@@ -12,8 +12,8 @@ export type Genre = {
 export type Game = {
 	id: number;
 	name: string;
-	cover?: string;
-	thumbnail?: string;
+	cover: string | null;
+	thumbnail: string | null;
 	genres: Genre[];
 	platforms: Platform[];
 };

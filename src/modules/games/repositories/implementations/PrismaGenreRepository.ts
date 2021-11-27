@@ -3,7 +3,7 @@ import { Genre } from '../../types/game';
 import { IGenreRepository } from '../IGenreRepository';
 
 export class PrismaGenreRepository implements IGenreRepository {
-	getGenres = () => prisma.genre.findMany().then((genres) => genres);
+	getGenres = () => prisma.genre.findMany();
 
 	saveOrUpdateGenre = (genre: Genre) => prisma.genre.upsert({
 		where: { id: genre.id },

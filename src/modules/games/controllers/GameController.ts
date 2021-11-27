@@ -83,35 +83,3 @@ export const getGameStatus = async (obj: Game, context: Context) => {
 		});
 	return result?.situation.name || null;
 };
-
-export const getGamesByStatus = async (args: any, context: Context) => {
-	const userId = context.user?.id;
-	if (!userId) return unauthorize('user_not_found');
-
-	const where = {
-		UserGameSituation: {
-			some: { userId, situationId: args.statusId },
-		},
-	};
-
-	const games = await prisma.game.findMany({
-		select: {
-			id: true,
-			genres: true,
-			cover: true,
-			name: true,
-			platforms: true,
-			thumbnail: true,
-		},
-		where,
-	});
-
-	const count = await prisma.game.count({
-		where,
-	});
-
-	return {
-		games,
-		count,
-	};
-};
