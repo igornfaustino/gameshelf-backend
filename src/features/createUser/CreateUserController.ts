@@ -11,13 +11,13 @@ type Args = {
 
 export class CreateUserController {
 	constructor(
-		private getUsersGamesBySituationFeature: CreateUserFeature,
+		private createUserFeature: CreateUserFeature,
 	) {}
 
 	handle = async (_obj: any, args: Args) => {
 		try {
 			const newUser = await userSchema.validate(args);
-			const result = await this.getUsersGamesBySituationFeature.execute(newUser);
+			const result = await this.createUserFeature.execute(newUser);
 			return authorize(result);
 		} catch (error) {
 			if (error instanceof Unauthorized) return unauthorize('duplicate_user');

@@ -2,8 +2,8 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 
 import schema from './typedef';
-import { parserJWT } from './modules/shared/helpers/jwt';
 import { PORT } from './modules/shared/helpers/env';
+import { JWTTokenProvider } from './modules/auth/providers/implementations/JWTTokenProvider';
 
 require('dotenv').config('.env');
 
@@ -15,7 +15,7 @@ const server = new ApolloServer({
 	schema,
 	context: ({ req }) => {
 		const token = req.headers.authorization || '';
-		const user = parserJWT(token);
+		const user = JWTTokenProvider.parserJWT(token);
 		return { user };
 	},
 	playground: true,

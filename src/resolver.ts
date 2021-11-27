@@ -1,13 +1,13 @@
 import { IResolvers } from 'graphql-tools';
 import * as IgdbController from './modules/igdb/controllers/igdb';
 import * as GameController from './modules/games/controllers/GameController';
-import * as UserController from './modules/auth/controllers/userController';
 import { searchGameController } from './features/searchGames';
 import { getAllPlatformController } from './features/getAllPlatforms';
 import { getAllGenresController } from './features/getAllGenres';
 import { getUsersGamesBySituationController } from './features/getUsersGamesBySituations';
 import { getSituationsByGameController } from './features/getSituationByGame';
 import { createUserController } from './features/createUser';
+import { loginController } from './features/login';
 
 const resolvers: IResolvers = {
 	UserResult: {
@@ -50,7 +50,7 @@ const resolvers: IResolvers = {
 	},
 	Mutation: {
 		createUser: createUserController.handle,
-		login: (_obj, args) => UserController.login(args),
+		login: loginController.handle,
 		addStatusToGame: (_obj, args, context) => GameController.addStatusToGame(args, context),
 		removeStatusToGame: (_obj, args, context) => GameController.removeStatusToGame(args, context),
 	},
