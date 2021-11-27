@@ -3,7 +3,7 @@ import { getIgdbToken } from '../../../shared/controllers/app';
 import { CLIENT_ID } from '../../../shared/helpers/env';
 import { igdbTokenMiddleware } from '../../../shared/helpers/request';
 import { GameConvertHelper } from '../../helpers/GameConvertHelper';
-import { APIGame } from '../../types/game';
+import { APIGame, Platform } from '../../types/game';
 import { IGameService, ISearchArgs } from '../IGameService';
 
 const BASE_URL = 'https://api.igdb.com/v4';
@@ -68,5 +68,14 @@ export class IgdbGameService implements IGameService {
 
 		return igdbTokenMiddleware(query.request('/games/count'))
 			.then((res) => res.data?.count || 0);
+	}
+
+	async getPlatforms(): Promise<Platform[]> {
+		const query = apicalypse(await this.getRequestOptions())
+			.fields('name,abbreviation')
+			.sort('name', 'asc')
+			.limit(500);
+
+		return igdbTokenMiddleware(query.request('/platforms')).then((res) => res.data);
 	}
 }

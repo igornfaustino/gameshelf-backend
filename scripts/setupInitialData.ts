@@ -1,4 +1,5 @@
-import { getGenres, getPlatforms } from '../src/modules/igdb/services/igdb';
+import { IgdbGameService } from '../src/modules/games/services/implementations/igdbGameService';
+import { getGenres } from '../src/modules/igdb/services/igdb';
 import { prisma } from '../src/config/prisma';
 import { PrismaPlatformRepository } from '../src/modules/games/repositories/implementations/PrismaPlatformRepository';
 import { PrismaGenreRepository } from '../src/modules/games/repositories/implementations/PrismaGenreRepository'
@@ -15,6 +16,7 @@ const setupInitialData = async () => {
 	const res = await requestAccessToken();
 	await saveIgdbToken(res.data.access_token);
 	
+	const igdbGameService = new IgdbGameService()
 	
 	const genres = await getGenres();
 	const genreRepository = new PrismaGenreRepository()
@@ -22,7 +24,8 @@ const setupInitialData = async () => {
 		await genreRepository.saveOrUpdateGenre(genre);
 	}
 	
-	const platforms = await getPlatforms();
+	
+	const platforms = await igdbGameService.getPlatforms();
 	const platformRepository = new PrismaPlatformRepository()
 	for (const platform of platforms) {
 		await platformRepository.saveOrUpdatePlatform(platform);

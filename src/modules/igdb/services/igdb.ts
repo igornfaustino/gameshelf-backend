@@ -1,5 +1,5 @@
 import apicalypse, { ApicalypseConfig } from 'apicalypse';
-import { APIGame, Genre, Platform } from '../../games/types/game';
+import { APIGame, Genre } from '../../games/types/game';
 import { CLIENT_ID } from '../../shared/helpers/env';
 import { getIgdbToken } from '../../shared/controllers/app';
 import { igdbTokenMiddleware } from '../../shared/helpers/request';
@@ -49,15 +49,6 @@ export const countGames = async (
 	if (whereStatement) query.where(whereStatement);
 
 	return igdbTokenMiddleware(query.request('/games/count')).then((res) => res.data);
-};
-
-export const getPlatforms = async (): Promise<Platform[]> => {
-	const query = apicalypse(await requestOptions())
-		.fields('name,abbreviation')
-		.sort('name', 'asc')
-		.limit(500);
-
-	return igdbTokenMiddleware(query.request('/platforms')).then((res) => res.data);
 };
 
 export const getGenres = async (): Promise<Genre[]> => {

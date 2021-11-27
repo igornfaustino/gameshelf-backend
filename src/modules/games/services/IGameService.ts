@@ -1,4 +1,4 @@
-import { Game } from '../types/game';
+import { Game, Platform } from '../types/game';
 
 export type ISearchArgs = {
 	search: string;
@@ -11,4 +11,5 @@ export type ISearchArgs = {
 export interface IGameService {
 	searchGames(filters: ISearchArgs): Promise<Game[]>
 	countGames(filters: ISearchArgs): Promise<number>
+	getPlatforms(): Promise<Platform[]>
 }

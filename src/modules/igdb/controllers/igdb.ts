@@ -3,24 +3,11 @@ import {
 	APIGame, Game, Genre, Platform,
 } from '../../games/types/game';
 
-type SearchArgs = {
-	search: string;
-	platforms?: number[];
-	genres?: number[];
-	limit?: number;
-	offset?: number;
-};
-
 const APIGameToGameModel = (game: APIGame): Game => ({
 	...game,
 	cover: game.cover?.url?.replace('t_thumb', 't_cover_big'),
 	thumbnail: game.cover?.url?.replace('t_thumb', 't_cover_small'),
 });
-
-export const getPlatforms = async (): Promise<Platform[]> => {
-	const platforms = await IgdbService.getPlatforms();
-	return platforms;
-};
 
 export const getGenres = async (): Promise<Genre[]> => {
 	const genres = await IgdbService.getGenres();
