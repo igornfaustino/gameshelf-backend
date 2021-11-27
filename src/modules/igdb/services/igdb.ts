@@ -31,26 +31,6 @@ const makeSearchGameCondition = (platforms?: any[], genres?: any[]) => {
 	return whereStatement.join('&');
 };
 
-export const searchGames = async (
-	search: string,
-	genres?: number[],
-	platforms?: number[],
-	limit: number = 50,
-	offset: number = 0,
-): Promise<APIGame[]> => {
-	const query = apicalypse(await requestOptions())
-		.fields(GAME_FIELDS)
-		.search(search)
-		.limit(limit)
-		.offset(offset);
-
-	const whereStatement = makeSearchGameCondition(platforms, genres);
-
-	if (whereStatement) query.where(whereStatement);
-
-	return igdbTokenMiddleware(query.request('/games')).then((res) => res.data);
-};
-
 type Count = {
 	count: number;
 };

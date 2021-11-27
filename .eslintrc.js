@@ -22,6 +22,7 @@ module.exports = {
 		'@typescript-eslint/indent': ['error', 'tab'],
 		'import/extensions': 'off',
 		'import/prefer-default-export': 'off',
-		'no-underscore-dangle': 'off'
+		'no-underscore-dangle': 'off',
+		"class-methods-use-this": "off"
 	},
 };
