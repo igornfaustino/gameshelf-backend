@@ -26,22 +26,3 @@ export const getGameByID = async (id: number): Promise<APIGame> => {
 		.where(`id=${id}`);
 	return igdbTokenMiddleware(query.request('/games')).then((res) => res.data[0]);
 };
-
-export const getLast10ReleasedGames = async (): Promise<any[]> => {
-	const currentTimestamp = Math.floor(Date.now() / 1000);
-	const query = apicalypse(await requestOptions())
-		.fields(GAME_FIELDS)
-		.where(`first_release_date<${currentTimestamp} & cover!=null`)
-		.sort('first_release_date', 'desc')
-		.limit(10);
-	return igdbTokenMiddleware(query.request('/games')).then((res) => res.data);
-};
-
-export const getTopRatingGames = async (): Promise<any[]> => {
-	const query = apicalypse(await requestOptions())
-		.fields(GAME_FIELDS)
-		.where('cover!=null')
-		.sort('rating', 'desc')
-		.limit(10);
-	return igdbTokenMiddleware(query.request('/games')).then((res) => res.data);
-};
