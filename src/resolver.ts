@@ -1,5 +1,4 @@
 import { IResolvers } from 'graphql-tools';
-import * as GameController from './modules/games/controllers/GameController';
 import { searchGameController } from './features/searchGames';
 import { getAllPlatformController } from './features/getAllPlatforms';
 import { getAllGenresController } from './features/getAllGenres';
@@ -10,6 +9,7 @@ import { loginController } from './features/login';
 import { countGameController } from './features/countGames';
 import { getHomePageGamesController } from './features/getHomePageGames';
 import { addSituationsToGameController } from './features/addSituationToGame';
+import { removeGameSituationController } from './features/removeGameSituation';
 
 const resolvers: IResolvers = {
 	UserResult: {
@@ -54,7 +54,7 @@ const resolvers: IResolvers = {
 		createUser: createUserController.handle,
 		login: loginController.handle,
 		addStatusToGame: addSituationsToGameController.handle,
-		removeStatusToGame: (_obj, args, context) => GameController.removeStatusToGame(args, context),
+		removeStatusToGame: removeGameSituationController.handle,
 	},
 };
 
