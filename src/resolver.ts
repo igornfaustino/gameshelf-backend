@@ -9,6 +9,7 @@ import { createUserController } from './features/createUser';
 import { loginController } from './features/login';
 import { countGameController } from './features/countGames';
 import { getHomePageGamesController } from './features/getHomePageGames';
+import { addSituationsToGameController } from './features/addSituationToGame';
 
 const resolvers: IResolvers = {
 	UserResult: {
@@ -52,7 +53,7 @@ const resolvers: IResolvers = {
 	Mutation: {
 		createUser: createUserController.handle,
 		login: loginController.handle,
-		addStatusToGame: (_obj, args, context) => GameController.addStatusToGame(args, context),
+		addStatusToGame: addSituationsToGameController.handle,
 		removeStatusToGame: (_obj, args, context) => GameController.removeStatusToGame(args, context),
 	},
 };
